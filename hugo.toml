@@ -2,3 +2,7 @@ baseURL = "https://fuggint.com/"
 title = "FUGGINT"
 theme = "stack"
 languageCode = "en-us"
+
+[services]
+  [services.googleAnalytics]
+    ID = ""
