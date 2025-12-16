@@ -1,13 +1,6 @@
 ---
 title: About
-description: Hugo, the world's fastest framework for building websites
-date: '2019-02-28'
-aliases:
-  - about-us
-  - about-hugo
-  - contact
-license: CC BY-NC-ND
-lastmod: '2020-10-09'
+description: Hi, I'm Tommy!
 menu:
     main: 
         weight: -90
@@ -15,20 +8,9 @@ menu:
             icon: user
 ---
 
-Written in Go, Hugo is an open source static site generator available under the [Apache License 2.0.](https://github.com/gohugoio/hugo/blob/master/LICENSE) Hugo supports TOML, YAML and JSON data file types, Markdown and HTML content files and uses shortcodes to add rich content. Other notable features are taxonomies, multilingual mode, image processing, custom output formats, HTML/CSS/JS minification and support for Sass SCSS workflows.
+I'm a Principal Defensive Cyberspace Operator (DCO) Analyst with 7+ years experience as a cyber professional. My expertise lies in threat hunting, threat intelligence, and incident response. I created this blog to document various 
+efforts such as threat hunting strategies, timelining historical intrusions, and overviews of various APTs.
 
-Hugo makes use of a variety of open source projects including:
+My career in cyber began in the Air Force where, as a Cyber Warfare Operator, I was assigned to a National Cyberspace Protection Team. During this time, I would engage in threat hunting operations both overseas and via state-side support to assist foreign mission partners in identifying and disrupting adversary activity. While separating from the Air Force, I participated in the DoD SkillBridge program, obtaining an internship position as an analyst on the Falcon Complete team at CrowdStrike. In this role, I responded to active intrusions and took remediation actions in the customer environment. After completing SkillBridge, I joined the OverWatch team as a threat hunter where I hunted eCrime and nation-state actors in both commercial and government environments. I am now back in the government sector as a contractor, currently supporting the US Army as a threat hunting SME.
 
-* https://github.com/yuin/goldmark
-* https://github.com/alecthomas/chroma
-* https://github.com/muesli/smartcrop
-* https://github.com/spf13/cobra
-* https://github.com/spf13/viper
-
-Hugo is ideal for blogs, corporate websites, creative portfolios, online magazines, single page applications or even a website with thousands of pages.
-
-Hugo is for people who want to hand code their own website without worrying about setting up complicated runtimes, dependencies and databases.
-
-Websites built with Hugo are extremely fast, secure and can be deployed anywhere including, AWS, GitHub Pages, Heroku, Netlify and any other hosting provider.
-
-Learn more and contribute on [GitHub](https://github.com/gohugoio).
+I possess CISSP, GCFA, CEH, and CompTIA Security+ certification. I have an MS in Cybersecurity from Georgia Tech and a BS in Computer Science. 

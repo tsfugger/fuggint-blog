@@ -6,3 +6,11 @@ languageCode = "en-us"
 [services]
   [services.googleAnalytics]
     ID = ""
+
+[params.sidebar]
+subtitle = "Threat Intelligence & Hunting"
+
+[params.sidebar.avatar]
+enabled = true
+src = "/img/avatar.png"
+alt = "Portrait of Tommy Fugger"
