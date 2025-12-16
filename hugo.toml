@@ -8,9 +8,19 @@ languageCode = "en-us"
     ID = ""
 
 [params.sidebar]
-subtitle = "Threat Intelligence & Hunting"
+subtitle = "Threat Hunting & Intelligence"
 
 [params.sidebar.avatar]
 enabled = true
 src = "/img/avatar.png"
 alt = "Portrait of Tommy Fugger"
+
+
+[[menu.main]]
+name = "Connect with Me!"
+url = "https://www.linkedin.com/in/tsfugger/"
+weight = 50
+
+  [menu.main.params]
+  newTab = true
+  icon = "brand-linkedin"
