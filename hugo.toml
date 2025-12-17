@@ -24,3 +24,7 @@ weight = 50
   [menu.main.params]
   newTab = true
   icon = "brand-linkedin"
+
+
+[params]
+favicon = "/favicon.ico"
