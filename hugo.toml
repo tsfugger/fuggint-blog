@@ -15,7 +15,6 @@ enabled = true
 src = "/img/avatar.png"
 alt = "Portrait of Tommy Fugger"
 
-
 [[menu.main]]
 name = "Connect with Me!"
 url = "https://www.linkedin.com/in/tsfugger/"
@@ -25,6 +24,18 @@ weight = 50
   newTab = true
   icon = "brand-linkedin"
 
-
 [params]
 favicon = "/favicon.ico"
+
+[params.widgets]
+
+  [[params.widgets.homepage]]
+    type = "categories"
+    params.limit = 10
+
+  [[params.widgets.homepage]]
+    type = "tag-cloud"
+    params.limit = 20
+
+
+

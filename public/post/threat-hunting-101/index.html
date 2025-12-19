@@ -42,7 +42,7 @@
         }
     })();
 </script>
-<div class="container main-container flex on-phone--column compact"><aside class="sidebar left-sidebar sticky ">
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
     <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
         <span class="hamburger-box">
             <span class="hamburger-inner"></span>
@@ -202,8 +202,8 @@
     <header class="article-header">
         <div class="article-image">
             <a href="/post/threat-hunting-101/">
-                <img src="/post/threat-hunting-101/ThreatHunting101_hu_69570a80e2c247c8.png"
-                        srcset="/post/threat-hunting-101/ThreatHunting101_hu_69570a80e2c247c8.png 800w, /post/threat-hunting-101/ThreatHunting101_hu_4770c4d60b357a42.png 1600w"
+                <img src="/post/threat-hunting-101/ThreatHunting101_hu_4169ad2cd1d88501.png"
+                        srcset="/post/threat-hunting-101/ThreatHunting101_hu_4169ad2cd1d88501.png 800w, /post/threat-hunting-101/ThreatHunting101_hu_255d23801ef055d6.png 1600w"
                         width="800" 
                         height="533" 
                         loading="lazy"
@@ -267,7 +267,7 @@
 
 
                 <time class="article-time--reading">
-                    1 minute read
+                    8 minute read
                 </time>
             </div>
         
@@ -282,9 +282,150 @@
     <section class="article-content">
     
     
-    <h1 id="overview">Overview
-</h1><p>What better way to kick this blog off than by providing an overview on threat hunting. It&rsquo;s been done a thousand times before, but threat hunting is a crucial, and often misunderstood, component of security. The purpose of this introductory post is to simply define some key aspects of threat hunting and provide a general process for the threat hunting workflow.</p>
+    <h2 id="overview">Overview
+</h2><p>What better way to kick this blog off than by providing an overview on threat hunting. It&rsquo;s been done a thousand times before, but threat hunting is a crucial, and often misunderstood, component of security. The purpose of this introductory post is to simply define some key aspects of threat hunting and provide a general process for the threat hunting workflow.</p>
 <p>In the modern cybersecurity landscape, traditional defensive solutions such as firewalls, IDS/IPS, and EDR are essential but insufficient. Sophisticated adversaries are constantly developing new methods for bypassing such automated defenses. Thus enters threat hunting, a hypothesis-driven and proactive strategy for identifying sophisticated threats. Threat hunting has become a core capability for mature security teams, bridging the gap between traditional detection and proactive defense. Unlike alert-driven monitoring, threat hunting assumes that adversaries may already be present in an environment and focuses on identifying malicious activity that has evaded existing controls.</p>
+<h2 id="what-is-threat-hunting">What is Threat Hunting?
+</h2><p>At its core, threat hunting is a hypothesis-driven, proactive security activity aimed at identifying threats that bypass automated detections.</p>
+<p>Threat hunting differs from:</p>
+<ul>
+<li>SOC alert triage (reactive)</li>
+<li>Incident response (post-compromise)</li>
+<li>Threat intelligence consumption (contextual)</li>
+</ul>
+<p>Instead, threat hunting:</p>
+<ul>
+<li>Starts with an assumption of compromise/hypothesis</li>
+<li>Leverages telemetry across endpoints, identity, cloud, and network</li>
+<li>Focuses on behaviors, not just alerts - we&rsquo;ll discuss indicators of attack vs indicators of compromise further down</li>
+</ul>
+<p>Threat hunting does not replace automated detection and response - it compliments it.</p>
+<h2 id="why-threat-hunting">Why Threat Hunting?
+</h2><p><img src="/post/threat-hunting-101/whythreathunting.jpg"
+	width="889"
+	height="499"
+	srcset="/post/threat-hunting-101/whythreathunting_hu_910cd32012ac17e2.jpg 480w, /post/threat-hunting-101/whythreathunting_hu_2b3adfc13dbf6238.jpg 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="178"
+		data-flex-basis="427px"
+	
+></p>
+<p>As I&rsquo;ve mentioned above, traditional security solutions simply are not sufficient on their own to disrupt sophisticated adversary activity. While firewalls, antivirus, and EDR systems are essential, they are primarily reactive — they wait for a known &ldquo;signature&rdquo; or alert to trigger. Sophisticated attackers know how to evade these triggers. By leveraging threat hunting capabilities, an organization can proactively find hidden attackers and advanced threats that bypass automated defenses, thus reducing dwell time, identifying security gaps, and disrupting adversary activity. Threat hunting is driven by an assumption of breach, which means operating under the premise that an adversary already has a foothold within a network.</p>
+<h2 id="core-concepts-and-terminology">Core Concepts and Terminology
+</h2><h3 id="reactive-vs-proactive">Reactive vs. Proactive
+</h3><p>We&rsquo;ll start with terms I&rsquo;ve already mentioned several times: reactive vs. proactive.</p>
+<p>Incident response, in general, is <em>reactive</em>:</p>
+<ul>
+<li>Action is triggered by an alert/incident</li>
+<li>Relies on known signatures, rules, or other predefined detection logic</li>
+<li>Effective for known/commodity threats; limited for novel or low-and slow</li>
+<li>This would be akin to receiving a home security alert about an intruder in your home and then investigating.</li>
+</ul>
+<p>Threat hunting, on the other hand, is <em>proactive</em>:</p>
+<ul>
+<li>Action is initiated by an analyst&rsquo;s hypotheses</li>
+<li>Seeks unknown/evasive threats - finding a needle in a needle stack</li>
+<li>Focuses on attacker behavior and tradecraft rather than signatures</li>
+<li>Ultimately improves detection logic/telemetry/security posture over time</li>
+<li>This would be akin to <em>suspecting</em> an intruder is in your home without receiving a security alert and going to check.</li>
+</ul>
+<h3 id="the-pyramid-of-pain">The Pyramid of Pain
+</h3><p>This model was created by David Bianco and provides a great visualization of the increasing difficulty adversaries face when you deny them certain indicators.</p>
+<blockquote>
+<p><img src="/post/threat-hunting-101/pyramid.png"
+	width="720"
+	height="405"
+	srcset="/post/threat-hunting-101/pyramid_hu_16ddf8089e97693f.png 480w, /post/threat-hunting-101/pyramid_hu_3699f9dc71a42ace.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="177"
+		data-flex-basis="426px"
+	
+><br>
+<a class="link" href="https://detect-respond.blogspot.com/2013/03/the-pyramid-of-pain.html"  target="_blank" rel="noopener"
+    >The Pyramid of Pain - David Bianco</a></p>
+</blockquote>
+<p>The pyramid works its way up from lowest to highest impact. At the bottom half of the pyramid we have hash values, IP addresses, and domain names, all of which are rather inconsequential for an attacker to change. Threat hunting aims to operate at the top of the pyramid, focusing on adversary TTPs and actually disrupting how they operate. This causes the most &ldquo;pain&rdquo; for adversaries by forcing them to change their behaviors.</p>
+<h3 id="iocs-vs-ioas">IOCs vs IOAs
+</h3><p>This is a crucial concept to understand. I&rsquo;ve seen many junior hunters, or analysts seeking to transition from IR to hunting, struggle with this.</p>
+<p><strong>Indicators of compromise (IOCs)</strong> are artifacts that suggest a breach has already happened and typically spur an incident response. These indicators are easy for adversaries to change and are typically only discovered post-compromise.</p>
+<p>Examples include:</p>
+<ul>
+<li>Malicious IPs or domains</li>
+<li>Malicious file hashes</li>
+<li>Known bad registry keys</li>
+</ul>
+<p><strong>Indicators of attack (IOAs)</strong> focus on behavior associated with an active attack in progress or an emerging attack. Focusing on the behaviors associated with an attack make it harder for attackers to evade, and can even be effective in combating zero-days or custom tooling that would bypass signature detection.</p>
+<p>Examples include:</p>
+<ul>
+<li>Credential dumping from LSASS</li>
+<li>Abnormal parent-child process relationships</li>
+<li>Execution of unsigned modules from memory</li>
+</ul>
+<h3 id="mitre-attck-framework">MITRE ATT&amp;CK Framework
+</h3><p><em>Every</em> threat hunter should be intimately familiar with the MITRE ATT&amp;CK framework. This incredible knowledge base catalogs adversary behavior across tactics, techniques, and sub-techniques. Tactics provide the <em>why</em> of an action, such as initial access or persistence. Techniques and sub-techniques provide <em>how</em> a tactic is achieved, such as process injection or command and scripting interpreter. This framework is crucial for threat hunters because we frequently use it to structure a hypothesis. For instance, suppose we know an adversary of interest has a tendency to achieve credential access by targeting credentials stored in the process memory of the LSASS. T1003.001 - OS Credential Dumping: LSASS Memory would provide a starting point.</p>
+<blockquote>
+<p><img src="/post/threat-hunting-101/mitre.jpg"
+	width="2546"
+	height="1153"
+	srcset="/post/threat-hunting-101/mitre_hu_395e920760e851a6.jpg 480w, /post/threat-hunting-101/mitre_hu_6c103f00bd7ff969.jpg 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="220"
+		data-flex-basis="529px"
+	
+><br>
+ATT&amp;CK Matrix for Enterprise – <a class="link" href="https://attack.mitre.org/"  target="_blank" rel="noopener"
+    >MITRE ATT&amp;CK Framework</a></p>
+</blockquote>
+<h2 id="threat-hunting-methodologies">Threat Hunting Methodologies
+</h2><p>Now that we&rsquo;ve discussed how the pyramid of pain, IOAs, and the MITRE ATT&amp;CK framework fit into threat hunting, let&rsquo;s go over some different hunting methodologies. There are various approaches, and while no one way is &ldquo;correct&rdquo;, mature threat hunting teams will blend all them all.</p>
+<h3 id="hypothesis-driven-hunting">Hypothesis-Driven Hunting
+</h3><p>This is a creative and more mature approach to threat hunting. It begins with a question or a theory about a potential attack vector or adversary behavior. For example, you suspect/hypothesize that an attacker is abusing WMI to move laterally within your environment. You may then start to investigate for instances of WmiPrvSE.exe spawning cmd.exe or powershell.exe.</p>
+<h3 id="intelligence-driven-hunting">Intelligence-Driven Hunting
+</h3><p>This method is driven by external reporting, translating threat intelligence into behavioral queries. For example, if a recent report states that a specific APT is modifying registry key values to establish persistence, this could spur a hunt that searches for modification of the specific key.</p>
+<h3 id="data-drivenmachine-learning-driven-hunting">Data-Driven/Machine Learning-Driven Hunting
+</h3><p>These hunts use data science to identify anomalies. It requires appropriate baselining to establish &ldquo;normal&rdquo; behavior, and then investigating statistical outliers - such as thin-tailed and fat-tailed distribution. For example, spikes in outbound traffic could be indicative of data exfiltration.</p>
+<h2 id="threat-hunt-lifecycle">Threat Hunt Lifecycle
+</h2><p>Threat hunting is not random; it&rsquo;s actually a structured, repeatable lifecycle.</p>
+<p><strong>1. Hypothesis Development</strong><br>
+The hunt begins with some sort of trigger to generate a testable hypothesis; this could be a newly reported vulnerability, a new technique added to MITRE ATT&amp;CK, or even a gut feeling based on recent trends.</p>
+<p><strong>2. Data Collection</strong><br>
+After forming a hypothesis, we must determine that the necessary data actually exists to test the hypothesis. For instance, we must identify the relevant telemetry sources: do we ingest EDR logs? Do we have Windows Event Logs? Do we have PCAP or NetFlow data? The necessary data must exist in order to conduct a hunt.</p>
+<p><strong>3. Analysis and Validation</strong><br>
+Once we&rsquo;ve identified the necessary data, we being to query and pivot. As we work through the data, we must validate our findings and filter out known good behavior to identify and isolate malicious activity. As a simple example, if we are running a search and observe that svchost.exe appears 1,000 times, but svch0st.exe appears once, we need to identify and investigate that anomaly.</p>
+<p><strong>4. Escalation</strong><br>
+Once we&rsquo;ve validated malicious findings, we typically escalate the activity to the incident response team. The threat hunters role upon escalation is to provide context surrounding the activity, such as relevant artifacts, timelining, remediation recommendations, etc.</p>
+<p><strong>5. Detections and Feedback</strong><br>
+At this point, threat hunters want to create and refine high-fidelity detection rules based on our hunt logic to identify and prevent reoccurring or future activity. This results in increased detection coverage and reduces gaps for your organization. We can also identify any shortcomings in our telemetry, such as improper sensor configurations or visibility gaps due to a lack of necessary logs.</p>
+<p><strong>6. Documentation</strong><br>
+A hunt should always be documented; documentation turns a hunt into a key security asset for your organization by translating hunt logic into automated detections and ensuring reproducibility for your team. It provides evidence of impact and proof of value to justify the need for threat hunting operations.</p>
+<h2 id="what-does-a-successful-hunt-look-like">What Does A Successful Hunt Look Like?
+</h2><p>I cannot emphasize enough that the success of a hunt is <em>not</em> determined by whether or not an active threat was found. In fact, finding an active threat as a result of hunt efforts is quite rare. While that would be the &ldquo;ideal&rdquo; outcome, there are a number of other metrics that demonstrate the success of a hunt:</p>
+<ul>
+<li>Identifying detection gaps and/or vulnerablities</li>
+<li>Improving visibility and telemetry</li>
+<li>Creating high-fidelity detections</li>
+<li>Validating assumptions</li>
+<li>Reducing future dwell time</li>
+</ul>
+<p>A successful hunt that did not illuminate an active threat should prove that an adversary isn&rsquo;t present using the specific technique hunted on. What is key is that the hunt results in actionable improvements. With that said, let&rsquo;s take a quick look at some common pitfalls that result in an <em>unsuccessful</em> hunt:</p>
+<ul>
+<li>Hunting without a hypothesis</li>
+<li>Focusing heavily on IOCs rather than IOAs</li>
+<li>Overscoping queries without behavioral context</li>
+<li>Failing to document outcomes</li>
+<li>Lack of operational improvements</li>
+</ul>
+<h2 id="final-thoughts">Final Thoughts
+</h2><p>Threat hunting is the relentless pursuit of the unknown. It transitions security posture from a defensive mindset to an offensive one. By focusing on adversary behavior, leveraging frameworks like MITRE ATT&amp;CK, and continuously refining detections, threat hunters can meaningfully disrupt sophisticated attackers and uncover threats that technology alone cannot catch.</p>
 
 
 </section>
@@ -308,6 +449,39 @@
     
 
     
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/post/agenticespionage/">
+        
+        
+            <div class="article-image">
+                <img src="/post/agenticespionage/agenticespionage.0aef37eb830da1b4e72d3d159103e5e8.0aef37eb830da1b4e72d3d159103e5e8_hu_2ae2e53e566061cd.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Agentic Espionage"
+                        
+                        data-hash="md5-Cu8364MNobTnLT0VkQPl6A==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Agentic Espionage</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
 
      
     
