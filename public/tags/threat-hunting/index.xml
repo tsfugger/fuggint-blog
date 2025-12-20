@@ -6,35 +6,7 @@
         <description>Recent content in Threat Hunting on FUGGINT</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Fri, 19 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/threat-hunting/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Agentic Espionage</title>
-        <link>http://localhost:1313/post/agenticespionage/</link>
-        <pubDate>Fri, 19 Dec 2025 00:00:00 +0000</pubDate>
-        
-        <guid>http://localhost:1313/post/agenticespionage/</guid>
-        <description>&lt;img src="http://localhost:1313/post/agenticespionage/agenticespionage.png" alt="Featured image of post Agentic Espionage" /&gt;&lt;h2 id=&#34;overview&#34;&gt;Overview
-&lt;/h2&gt;&lt;p&gt;What better way to kick this blog off than by providing an overview on threat hunting. It&amp;rsquo;s been done a thousand times before, but threat hunting is a crucial, and often misunderstood, component of security. The purpose of this introductory post is to simply define some key aspects of threat hunting and provide a general process for the threat hunting workflow.&lt;/p&gt;
-&lt;p&gt;In the modern cybersecurity landscape, traditional defensive solutions such as firewalls, IDS/IPS, and EDR are essential but insufficient. Sophisticated adversaries are constantly developing new methods for bypassing such automated defenses. Thus enters threat hunting, a hypothesis-driven and proactive strategy for identifying sophisticated threats. Threat hunting has become a core capability for mature security teams, bridging the gap between traditional detection and proactive defense. Unlike alert-driven monitoring, threat hunting assumes that adversaries may already be present in an environment and focuses on identifying malicious activity that has evaded existing controls.&lt;/p&gt;
-&lt;h2 id=&#34;what-is-threat-hunting&#34;&gt;What is Threat Hunting?
-&lt;/h2&gt;&lt;p&gt;At its core, threat hunting is a hypothesis-driven, proactive security activity aimed at identifying threats that bypass automated detections.&lt;/p&gt;
-&lt;p&gt;Threat hunting differs from:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;SOC alert triage (reactive)&lt;/li&gt;
-&lt;li&gt;Incident response (post-compromise)&lt;/li&gt;
-&lt;li&gt;Threat intelligence consumption (contextual)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Instead, threat hunting:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Starts with an assumption of compromise/hypothesis&lt;/li&gt;
-&lt;li&gt;Leverages telemetry across endpoints, identity, cloud, and network&lt;/li&gt;
-&lt;li&gt;Focuses on behaviors, not just alerts - we&amp;rsquo;ll discuss indicators of attack vs indicators of compromise further down&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;so-why-threat-hunting&#34;&gt;So Why Threat Hunting?
-&lt;/h2&gt;&lt;p&gt;As I&amp;rsquo;ve mentioned above, traditional security solutions simply are not sufficient for disrupting sophisticated adversary activity. By leveraging threat hunting capabilities, an organization can proactively find hidden attackers and advanced threats that bypass automated defenses, thus reducing dwell time, identifying security gaps, and disrupting adversary activity.&lt;/p&gt;
-
-</description>
-        </item>
-        <item>
+        <lastBuildDate>Tue, 16 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/threat-hunting/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Threat Hunting 101</title>
         <link>http://localhost:1313/post/threat-hunting-101/</link>
         <pubDate>Tue, 16 Dec 2025 00:00:00 +0000</pubDate>
