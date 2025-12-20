@@ -1,0 +1,29 @@
+{{ define "main" }}
+    {{ $pages := where .Site.RegularPages "Type" "in" .Site.Params.mainSections }}
+    {{ $notHidden := where .Site.RegularPages "Params.hidden" "!=" true }}
+    {{ $filtered := ($pages | intersect $notHidden) }}
+    {{ $pag := .Paginate ($filtered) }}
+
+<!-- Homepage Image Banner -->
+<div class="welcome" style="text-align:center;">
+  <img 
+    src="/img/home-banner.png"
+    alt="FUGGINT Banner"
+    style="max-width:100%; height:auto;"
+  >
+</div>
+<!-- Homepage Image Banner -->
+
+    <section class="article-list">
+        {{ range $index, $element := $pag.Pages }}
+            {{ partial "article-list/default" . }}
+        {{ end }}
+    </section>
+
+    {{- partial "pagination.html" . -}}
+    {{- partial "footer/footer" . -}}
+{{ end }}
+
+{{ define "right-sidebar" }}
+    {{ partial "sidebar/right.html" (dict "Context" . "Scope" "homepage") }}
+{{ end }}
