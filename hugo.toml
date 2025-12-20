@@ -26,6 +26,7 @@ weight = 50
 
 [params]
 favicon = "/favicon.ico"
+customSCSS = ["scss/custom.scss"]
 
 [params.widgets]
 
@@ -36,6 +37,7 @@ favicon = "/favicon.ico"
   [[params.widgets.homepage]]
     type = "tag-cloud"
     params.limit = 20
+  
 
 
 

@@ -1,0 +1,48 @@
+/* --- BANNER TOGGLE LOGIC --- */
+
+/* 1. By default (Desktop), hide the mobile-top banner */
+.show-on-mobile-only {
+    display: none !important;
+}
+
+/* 2. By default (Desktop), show the desktop banner */
+.show-on-desktop-only {
+    display: block !important;
+    margin-bottom: 2rem;
+}
+
+/* 3. Mobile View Switch (Screens smaller than 1024px) */
+@media (max-width: 1024px) {
+    /* Hide the desktop version */
+    .show-on-desktop-only {
+        display: none !important;
+    }
+
+    /* Show the mobile version at the very top */
+    .show-on-mobile-only {
+        display: block !important;
+        width: 100%;
+        line-height: 0;
+    }
+    
+    /* Optional: Remove extra padding from the top of the theme 
+       so the banner touches the very top of the screen */
+    .main-container {
+        padding-top: 0 !important;
+    }
+}
+
+@media (max-width: 1024px) {
+    /* This pushes the avatar/sidebar down so it doesn't overlap */
+    .main-container {
+        margin-top: 20px !important; /* Adjust this number to increase/decrease the gap */
+    }
+
+    #banner-mobile-top {
+        /* This ensures the banner itself has a little breathing room at the bottom */
+        margin-bottom: 10px; 
+        /* Optional: ensures it stays on top of any overlapping elements */
+        position: relative;
+        z-index: 10;
+    }
+}
