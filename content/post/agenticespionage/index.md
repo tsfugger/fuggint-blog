@@ -1,7 +1,7 @@
 +++
 author = "Tommy Fugger"
 title = "Agentic Espionage"
-date = "2025-12-16"
+date = "2025-12-19"
 description = "Inside the First Largely Autonomous AI Cyber Espionage Campaign"
 categories = ["Threat Intelligence", "Threat Hunting"]
 tags = ["threat hunting", "AI", "espionage", "threat intelligence", "APT"]

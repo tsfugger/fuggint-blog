@@ -6,10 +6,10 @@
         <description>Recent content in Tags on FUGGINT</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Tue, 16 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 19 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>AI</title>
         <link>http://localhost:1313/tags/ai/</link>
-        <pubDate>Tue, 16 Dec 2025 00:00:00 +0000</pubDate>
+        <pubDate>Fri, 19 Dec 2025 00:00:00 +0000</pubDate>
         
         <guid>http://localhost:1313/tags/ai/</guid>
         <description></description>
@@ -17,7 +17,7 @@
         <item>
         <title>APT</title>
         <link>http://localhost:1313/tags/apt/</link>
-        <pubDate>Tue, 16 Dec 2025 00:00:00 +0000</pubDate>
+        <pubDate>Fri, 19 Dec 2025 00:00:00 +0000</pubDate>
         
         <guid>http://localhost:1313/tags/apt/</guid>
         <description></description>
@@ -25,7 +25,7 @@
         <item>
         <title>Espionage</title>
         <link>http://localhost:1313/tags/espionage/</link>
-        <pubDate>Tue, 16 Dec 2025 00:00:00 +0000</pubDate>
+        <pubDate>Fri, 19 Dec 2025 00:00:00 +0000</pubDate>
         
         <guid>http://localhost:1313/tags/espionage/</guid>
         <description></description>
@@ -33,7 +33,7 @@
         <item>
         <title>Threat Hunting</title>
         <link>http://localhost:1313/tags/threat-hunting/</link>
-        <pubDate>Tue, 16 Dec 2025 00:00:00 +0000</pubDate>
+        <pubDate>Fri, 19 Dec 2025 00:00:00 +0000</pubDate>
         
         <guid>http://localhost:1313/tags/threat-hunting/</guid>
         <description></description>
@@ -41,9 +41,41 @@
         <item>
         <title>Threat Intelligence</title>
         <link>http://localhost:1313/tags/threat-intelligence/</link>
-        <pubDate>Tue, 16 Dec 2025 00:00:00 +0000</pubDate>
+        <pubDate>Fri, 19 Dec 2025 00:00:00 +0000</pubDate>
         
         <guid>http://localhost:1313/tags/threat-intelligence/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Css</title>
+        <link>http://localhost:1313/tags/css/</link>
+        <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
+        
+        <guid>http://localhost:1313/tags/css/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Html</title>
+        <link>http://localhost:1313/tags/html/</link>
+        <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
+        
+        <guid>http://localhost:1313/tags/html/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Markdown</title>
+        <link>http://localhost:1313/tags/markdown/</link>
+        <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
+        
+        <guid>http://localhost:1313/tags/markdown/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Themes</title>
+        <link>http://localhost:1313/tags/themes/</link>
+        <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
+        
+        <guid>http://localhost:1313/tags/themes/</guid>
         <description></description>
         </item>
         
