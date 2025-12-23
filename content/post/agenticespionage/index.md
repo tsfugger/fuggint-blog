@@ -6,7 +6,7 @@ description = "Inside the First Largely Autonomous AI Cyber Espionage Campaign"
 categories = ["Threat Intelligence", "Threat Hunting"]
 tags = ["threat hunting", "AI", "espionage", "threat intelligence", "APT"]
 image = "agenticespionage.png"
-draft = true
+draft = false
 +++
 
 The intent of this post is not to simply rehash <cite>Anthropic's[^1]</cite> report, as you can [read that HERE](https://www.anthropic.com/news/disrupting-AI-espionage); rather, my goals are to outline AI's role in this campaign, present strategies for hunting AI-driven operations, and highlight how that may differ from traditional human operations.
