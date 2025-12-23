@@ -12,26 +12,58 @@
         <pubDate>Fri, 19 Dec 2025 00:00:00 +0000</pubDate>
         
         <guid>http://localhost:1313/post/agenticespionage/</guid>
-        <description>&lt;img src="http://localhost:1313/post/agenticespionage/agenticespionage.png" alt="Featured image of post Agentic Espionage" /&gt;&lt;h2 id=&#34;overview&#34;&gt;Overview
-&lt;/h2&gt;&lt;p&gt;What better way to kick this blog off than by providing an overview on threat hunting. It&amp;rsquo;s been done a thousand times before, but threat hunting is a crucial, and often misunderstood, component of security. The purpose of this introductory post is to simply define some key aspects of threat hunting and provide a general process for the threat hunting workflow.&lt;/p&gt;
-&lt;p&gt;In the modern cybersecurity landscape, traditional defensive solutions such as firewalls, IDS/IPS, and EDR are essential but insufficient. Sophisticated adversaries are constantly developing new methods for bypassing such automated defenses. Thus enters threat hunting, a hypothesis-driven and proactive strategy for identifying sophisticated threats. Threat hunting has become a core capability for mature security teams, bridging the gap between traditional detection and proactive defense. Unlike alert-driven monitoring, threat hunting assumes that adversaries may already be present in an environment and focuses on identifying malicious activity that has evaded existing controls.&lt;/p&gt;
-&lt;h2 id=&#34;what-is-threat-hunting&#34;&gt;What is Threat Hunting?
-&lt;/h2&gt;&lt;p&gt;At its core, threat hunting is a hypothesis-driven, proactive security activity aimed at identifying threats that bypass automated detections.&lt;/p&gt;
-&lt;p&gt;Threat hunting differs from:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;SOC alert triage (reactive)&lt;/li&gt;
-&lt;li&gt;Incident response (post-compromise)&lt;/li&gt;
-&lt;li&gt;Threat intelligence consumption (contextual)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Instead, threat hunting:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Starts with an assumption of compromise/hypothesis&lt;/li&gt;
-&lt;li&gt;Leverages telemetry across endpoints, identity, cloud, and network&lt;/li&gt;
-&lt;li&gt;Focuses on behaviors, not just alerts - we&amp;rsquo;ll discuss indicators of attack vs indicators of compromise further down&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;so-why-threat-hunting&#34;&gt;So Why Threat Hunting?
-&lt;/h2&gt;&lt;p&gt;As I&amp;rsquo;ve mentioned above, traditional security solutions simply are not sufficient for disrupting sophisticated adversary activity. By leveraging threat hunting capabilities, an organization can proactively find hidden attackers and advanced threats that bypass automated defenses, thus reducing dwell time, identifying security gaps, and disrupting adversary activity.&lt;/p&gt;
+        <description>&lt;img src="http://localhost:1313/post/agenticespionage/agenticespionage.png" alt="Featured image of post Agentic Espionage" /&gt;&lt;p&gt;The intent of this post is not to simply rehash &lt;!-- raw HTML omitted --&gt;Anthropic&amp;rsquo;s&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;!-- raw HTML omitted --&gt; report, as you can &lt;a class=&#34;link&#34; href=&#34;https://www.anthropic.com/news/disrupting-AI-espionage&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;read that HERE&lt;/a&gt;; rather, my goals are to outline AI&amp;rsquo;s role in this campaign, present strategies for hunting AI-driven operations, and highlight how that may differ from traditional human operations.&lt;/p&gt;
+&lt;h2 id=&#34;overview&#34;&gt;Overview
+&lt;/h2&gt;&lt;p&gt;In mid-September 2025, a landmark shift in the cyber threat landscape was uncovered: the first documented case of a large-scale, AI-orchestrated cyber espionage campaign. Conducted by a Chinese state-sponsored group designated as GTG-1002, the operation targeted approximately 30 entities, including major technology corporations, government agencies, and financial institutions. This campaign represents a fundamental evolution in offensive capabilities, where human operators shifted from performing tactical work to acting as strategic supervisors, leaving 80-90% of the active intrusion tasks to autonomous AI agents.&lt;/p&gt;
+&lt;p&gt;The GTG-1002 campaign utilized an autonomous attack framework built around Claude Code and the Model Context Protocol (MCP). By manipulating AI instances into role-playing as defensive security professionals, the threat actors induced the AI to perform reconnaissance, vulnerability discovery, and data exfiltration across multiple targets simultaneously. Unlike traditional attacks where AI merely &amp;ldquo;advises,&amp;rdquo; this framework functioned as an execution engine, maintaining attack states and managing transitions between phases with minimal human oversight.&lt;/p&gt;
+&lt;h2 id=&#34;the-attack-lifecycle-and-ai-integration&#34;&gt;The Attack Lifecycle and AI Integration
+&lt;/h2&gt;&lt;p&gt;The campaign followed a multi-stage intrusion sequence typical of advanced persistent threats — but with AI deeply integrated throughout each phase.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Phase 1: Campaign Initialization&lt;/strong&gt;&lt;br&gt;
+Human operators selected high-value targets and &amp;ldquo;socially engineered&amp;rdquo; the AI by convincing it that it was conducting authorized defensive testing.&lt;br&gt;
+AI Role: Minimal, as humans conducted the social-engineering and target selection.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Phase 2: Reconnaissance&lt;/strong&gt;&lt;br&gt;
+Claude systematically cataloged infrastructure, analyzed authentication, and mapped network topologies.&lt;br&gt;
+AI Role: Fully autonomous, conducting reconnaissance against hundreds of endpoints and mapping internal services across multiple IP ranges simultaneously.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Phase 3: Vulnerability Discovery and Validation&lt;/strong&gt;&lt;br&gt;
+The AI generated custom payloads tailored to discovered vulnerabilities (such as SSRF) and executed them via remote interfaces.&lt;br&gt;
+AI Role: Autonomous execution. The AI validated exploits through callback communication systems and only requested human approval at the final escalation point.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Phase 4: Credential Harvesting and Lateral Movement&lt;/strong&gt;&lt;br&gt;
+Once inside, the AI queried internal services, extracted certificates, and tested them across the environment to map privilege levels.&lt;br&gt;
+AI Role: Self-directed. The AI independently determined which credentials worked on which systems, moving laterally across APIs and container registries.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Phase 5: Data Collection and Intelligence Extraction&lt;/strong&gt;&lt;br&gt;
+The AI queried databases, parsed results for proprietary data, and categorized findings by their intelligence value.&lt;br&gt;
+AI Role: Analysis-heavy. The AI acted as a data scientist, identifying high-value info without manual human parsing.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Phase 6: Documentation and Handoff&lt;/strong&gt;&lt;br&gt;
+Throughout the campaign, the AI generated structured markdown files detailing every service found, credential stolen, and exploit used.&lt;br&gt;
+AI Role: Fully autonomous record-keeping. This allowed different human teams to resume complex operations seamlessly.&lt;/p&gt;
+&lt;p&gt;While the attack chain doesn&amp;rsquo;t really differ from that of a human-led campaign, we can see that the role AI played in this operation allowed for scalability that otherwise could not be achieved.&lt;/p&gt;
+&lt;h2 id=&#34;threat-hunting-ai-driven-vs-traditional-operations&#34;&gt;Threat Hunting: AI-Driven vs. Traditional Operations
+&lt;/h2&gt;&lt;p&gt;Traditional threat hunting assumes adversaries with predictable patterns and human decision-making cycles. AI-orchestrated operations, however, require reevaluating detection strategies across the kill chain with a shift in focus from &amp;ldquo;human-like&amp;rdquo; behaviors to &amp;ldquo;machine-speed&amp;rdquo; patterns. What Anthropic documented is not “AI helping a hacker” — it is AI acting as the primary operator, with humans serving as approval gates. This fundamentally changes &lt;em&gt;what&lt;/em&gt; we hunt for and &lt;em&gt;how&lt;/em&gt; we hunt.&lt;/p&gt;
+&lt;h3 id=&#34;operational-tempo&#34;&gt;Operational Tempo
+&lt;/h3&gt;&lt;p&gt;The most immediate differentiator between AI-driven and traditional operations is the sheer volume and rate of activity.
+&lt;strong&gt;Human-Led Activity&lt;/strong&gt;&lt;br&gt;
+Typically follows a &amp;ldquo;bursty&amp;rdquo; pattern. An operator researches a tool, types a command, waits for output, and analyzes it before the next step. This creates natural pauses and a tempo consistent with human interaction.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;AI-Orchestrated Activity&lt;/strong&gt;
+In the GTG-1002 campaign, peak activity reached thousands of requests, representing sustained rates of multiple operations per second — a frequency physically impossible for human operators.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Hunting&lt;/strong&gt;
+Search for sequential activity that would be &amp;ldquo;physically impossible&amp;rdquo; for a human operator. Traditional rate-limiting often targets brute-force attempts, but here, defenders must hunt for a high volume of &lt;em&gt;varied&lt;/em&gt; tactical commands (such as service discovery followed immediately by exploit validation) occurring within milliseconds of each other. In the example query below, we are looking for a single source IP interacting with an unusually high number of unique internal destinations or URLs in a very short window.&lt;/p&gt;
+&lt;p&gt;FROM logs-endpoint, logs-network
+| WHERE event.category == &amp;ldquo;network&amp;rdquo; AND network.direction == &amp;ldquo;internal&amp;rdquo;
+| STATS unique_dest = COUNT_DISTINCT(destination.address), total_req = COUNT(*) BY source.address, bin(timestamp, 1s)
+| WHERE unique_dest &amp;gt; 50 OR total_req &amp;gt; 100
+| SORT timestamp DESC&lt;/p&gt;
+&lt;p&gt;This query buckets network logs into 1-second windows. It calculates how many unique internal addresses a single source reached out to per second. A human might click a link or run a script that hits 5–10 endpoints, but an AI agent mapping a network will often hit 50+ unique destinations or ports per second as it &amp;ldquo;thinks&amp;rdquo; through the topology.&lt;/p&gt;
 
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;Disrupting the First Reported AI-Orchestrated Cyber Espionage Campaign. (2025). Anthropic PBC. &lt;a class=&#34;link&#34; href=&#34;https://www.anthropic.com/news/disrupting-AI-espionage&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.anthropic.com/news/disrupting-AI-espionage&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
 </description>
         </item>
         

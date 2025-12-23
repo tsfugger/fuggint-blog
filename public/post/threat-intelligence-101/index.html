@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='http://localhost:1313/post/threat-intelligence-101/'>
 
-<link rel="stylesheet" href="/scss/style.min.4d36f8dc1fd48129e1635deb4b8eb2870fa09474f7280c4cb606d40b2526994b.css"><meta property='og:title' content="Threat Intelligence 101">
+<link rel="stylesheet" href="/scss/style.min.f257621b231266e95605eb5a9da2591d30f4a72f0a28e64578c89d7ff850f54e.css"><meta property='og:title' content="Threat Intelligence 101">
 <meta property='og:description' content="An Overview of Threat Intelligence">
 <meta property='og:url' content='http://localhost:1313/post/threat-intelligence-101/'>
 <meta property='og:site_name' content='FUGGINT'>
@@ -42,7 +42,9 @@
         }
     })();
 </script>
-<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+<div id="banner-mobile-top" class="show-on-mobile-only" style="text-align:center;">
+             <img src="/img/home-banner.png" alt="Banner" style="width:100%; height:auto;">
+        </div><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
     <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
         <span class="hamburger-box">
             <span class="hamburger-inner"></span>
@@ -197,7 +199,11 @@
 
     
 
+            
             <main class="main full-width">
+                <div id="banner-desktop-mid" class="welcome show-on-desktop-only" style="text-align:center;">
+                    <img src="/img/home-banner.png" alt="Banner" style="max-width:100%; height:auto;">
+                </div>
     <article class="has-image main-article">
     <header class="article-header">
         <div class="article-image">
@@ -267,7 +273,7 @@
 
 
                 <time class="article-time--reading">
-                    3 minute read
+                    7 minute read
                 </time>
             </div>
         
@@ -283,7 +289,8 @@
     
     
     <h2 id="overview">Overview
-</h2><p>Threat Intelligence (TI) is the practice of collecting, analyzing, and operationalizing information about adversaries, their capabilities, infrastructure, and intent to inform security decision‑making. Where threat hunting is proactive detection inside your environment, threat intelligence provides the external context that helps you decide <em>what</em> to hunt for, <em>why</em> it matters, and <em>how</em> attackers are likely to operate.</p>
+</h2><p>Now that I&rsquo;ve covered the basics of threat hunting, let&rsquo;s pivot to threat intelligence. The intent of this writeup is to provide a simple, broad overview of threat intelligence, and to touch on how threat intelligence integrates with threat hunting.</p>
+<p>Threat Intelligence (TI) is the practice of collecting, analyzing, and operationalizing information about adversaries, their capabilities, infrastructure, and intent to inform security decision‑making. Where threat hunting is proactive detection inside your environment, threat intelligence provides the external context that helps you decide <em>what</em> to hunt for, <em>why</em> it matters, and <em>how</em> attackers are likely to operate.</p>
 <p>A mature threat intelligence program does not exist to produce reports for their own sake — it exists to reduce risk, improve detection, and enable faster, more confident response.</p>
 <h2 id="what-is-threat-intelligence">What is Threat Intelligence
 </h2><h3 id="what-it-is">What It Is
@@ -298,6 +305,119 @@
 <li>A replacement for detection engineering, threat hunting, or incident response</li>
 <li>A one‑time project or a purely vendor‑driven capability</li>
 </ul>
+<h2 id="pillars-of-threat-intelligence">Pillars of Threat Intelligence
+</h2><p>Not all intelligence is created equally. To be effective, intel must be tailored for both audience and focus. There are four primary &ldquo;pillars&rdquo; of intelligence that we will discuss. The distinction between each of these four types is the difference between a reactive SOC and a proactive security program.</p>
+<h3 id="strategic-intelligence">Strategic Intelligence
+</h3><ul>
+<li>Target Audience:
+<ul>
+<li>CISOs, Board Members, Executives, Risk Leaders</li>
+</ul>
+</li>
+<li>Focus:
+<ul>
+<li>High-level trends, risk landscape, and geopolitical shifts</li>
+</ul>
+</li>
+<li>Example:
+<ul>
+<li>A report on how AI-driven phishing is specifically targeting the financial sector&rsquo;s regional banks</li>
+</ul>
+</li>
+</ul>
+<h3 id="operational-intelligence">Operational Intelligence
+</h3><ul>
+<li>Target Audience:
+<ul>
+<li>SOC Managers, IR Leaders</li>
+</ul>
+</li>
+<li>Focus:
+<ul>
+<li>Details on specific campaigns, intrusion sets, and attacker workflows</li>
+</ul>
+</li>
+<li>Example:
+<ul>
+<li>A walkthrough of a specific ransomware campaign from initial access to data exfiltration</li>
+</ul>
+</li>
+</ul>
+<h3 id="tactical-intelligence">Tactical Intelligence
+</h3><ul>
+<li>Target Audience:
+<ul>
+<li>CISOs, SOC Analysts, Detection Engineers, Threat Hunters</li>
+</ul>
+</li>
+<li>Focus:
+<ul>
+<li>TTPs, MITRE ATT&amp;CK mappings - the mechanics of an attack</li>
+</ul>
+</li>
+<li>Example:
+<ul>
+<li>Adversaries abusing OAuth apps for persistence in cloud tenants</li>
+</ul>
+</li>
+</ul>
+<h3 id="technical-intelligence">Technical Intelligence
+</h3><ul>
+<li>Target Audience:
+<ul>
+<li>SIEMs, EDR Systems, other SOC Tools and Automation</li>
+</ul>
+</li>
+<li>Focus:
+<ul>
+<li>IOCs like IPs, hashes and domains - machine-readable data</li>
+</ul>
+</li>
+<li>Example:
+<ul>
+<li>A list of 500 malicious IP addresses associated with a current ransomware campaign.</li>
+</ul>
+</li>
+</ul>
+<h2 id="sources-of-threat-intelligence">Sources of Threat Intelligence
+</h2><h3 id="open-source-intelligence-osint">Open-Source Intelligence (OSINT)
+</h3><p>OSINT is the process of collecting and analyzing information that is publicly available. It is the &ldquo;free&rdquo; foundation of most CTI programs.</p>
+<p><strong>Government &amp; Regulatory Feeds</strong><br>
+Reports from agencies like CISA (Known Exploited Vulnerabilities catalog) or FBI InfraGard.</p>
+<p><strong>Security Blogs &amp; Research</strong><br>
+Deep dives from companies like Mandiant, SentinelOne, or independent researchers on platforms like X (Twitter) or Mastodon.</p>
+<p><strong>Technical Repositories</strong><br>
+Scanning tools like Shodan (for internet-connected devices) or VirusTotal (for checking if a file is malicious).</p>
+<p><strong>Vulnerability Databases</strong><br>
+The CVE (Common Vulnerabilities and Exposures) list tells you which software bugs are currently being exploited in the wild.</p>
+<h3 id="commercial-intelligence-vendors">Commercial Intelligence Vendors
+</h3><p>If OSINT is the local news, Commercial Intelligence is a private investigative firm. Organizations pay for these services to get high-fidelity data that isn&rsquo;t available to the general public.</p>
+<p><strong>Proprietary Telemetry</strong><br>
+Vendors like CrowdStrike or Microsoft see what is happening across millions of global endpoints. They turn this massive data set into &ldquo;early warnings&rdquo; for their customers.</p>
+<p><strong>Adversary Dossiers</strong><br>
+Deep-dive profiles on specific hacker groups. Instead of just &ldquo;an IP address,&rdquo; you get a report on &ldquo;Fancy Bear&rdquo; (a Russian state actor), including their typical office hours, preferred malware, and historical targets.</p>
+<p><strong>Finished Intelligence</strong><br>
+Human-curated reports that explain the &ldquo;So What?&rdquo; for executives. This saves your team hours of manual research by providing &ldquo;ready-to-consume&rdquo; analysis.</p>
+<p><strong>Data Breach &amp; Dark Web Monitoring</strong><br>
+Many vendors (like Recorded Future or ZeroFox) specifically crawl illicit marketplaces to see if your company&rsquo;s leaked credentials or &ldquo;stolen&rdquo; data are being sold before a breach becomes public.</p>
+<h3 id="information-sharing-communities">Information Sharing Communities
+</h3><p>This sits between public and private intelligence and often reqeuires more specialized access.</p>
+<p><strong>ISACs (Information Sharing and Analysis Centers)</strong><br>
+Industry-specific groups (e.g., FS-ISAC for Finance, H-ISAC for Healthcare) where competitors share threat data to protect the whole sector.</p>
+<p><strong>Dark Web Monitoring</strong><br>
+Specialized tools that &ldquo;scrape&rdquo; illicit forums and marketplaces to see if your company&rsquo;s credentials or &ldquo;leaked&rdquo; data are being sold.</p>
+<p><strong>SOCMINT (Social Media Intelligence)</strong><br>
+Monitoring social trends to spot coordinated &ldquo;hacktivist&rdquo; campaigns or early mentions of a new zero-day exploit.</p>
+<h3 id="internal-intelligence">Internal Intelligence
+</h3><p>Internal intelligence is often the most valuable because it is 100% relevant to your specific environment.</p>
+<p><strong>Endpoint Telemetry (EDR/XDR)</strong><br>
+Your local &ldquo;black boxes.&rdquo; These provide details on process executions, registry changes, and lateral movement attempts.</p>
+<p><strong>Network &amp; Flow Logs</strong><br>
+Firewall, DNS, and Proxy logs. These reveal where your data is going and if your machines are &ldquo;calling home&rdquo; to a Command &amp; Control (C2) server.</p>
+<p><strong>Incident Response (IR) Reports</strong><br>
+Looking at past &ldquo;post-mortems&rdquo; from your own company. Attackers often return to the same victim using the same methods if they weren&rsquo;t fully evicted.</p>
+<p><strong>Internal Honeypots</strong><br>
+Decoy systems like &ldquo;fake&rdquo; file servers or unpatched databases. Anyone touching these is automatically a high-fidelity threat.</p>
 <h2 id="threat-intelligence-lifecycle">Threat Intelligence Lifecycle
 </h2><p>Like threat hunting, threat intelligence follows a repeatable, structured lifecycle to ensure consistency and impact.</p>
 <p><strong>1. Planning and Direction</strong><br>
@@ -352,6 +472,44 @@ Reporting should be reviewed for usefulness, relevance, and impact, and then imp
 <li>Did it improve detections or response?</li>
 <li>Was it timely and relevant?</li>
 </ul>
+<h2 id="threat-intelligence-vs-threat-hunting">Threat Intelligence vs Threat Hunting
+</h2><p>Threat intelligence and threat hunting are mutually reinforcing.</p>
+<p>Threat Intelligence enables Hunting by:</p>
+<ul>
+<li>Identifying relevant adversaries</li>
+<li>Highlighting emerging techniques</li>
+<li>Providing hypotheses to test</li>
+</ul>
+<p>Threat Hunting feeds Intelligence by:</p>
+<ul>
+<li>Validating or disproving reports</li>
+<li>Discovering novel activity</li>
+<li>Adding environment‑specific context</li>
+</ul>
+<h2 id="operationalizing-threat-intelligence">Operationalizing Threat Intelligence
+</h2><p>Like with threat hunting, threat intelligence needs to result in actionable improvements to be useful, impactful, and successful. With the appropriate audience and focus, threat intel can drastically improve many processes across a security team.</p>
+<p>Detection Engineering</p>
+<ul>
+<li>Translate TTPs into SIEM and EDR detections</li>
+<li>Focus on behaviors, not just indicators</li>
+</ul>
+<p>Threat Hunting</p>
+<ul>
+<li>Build hunts around adversary tradecraft</li>
+<li>Prioritize based on likelihood and impact</li>
+</ul>
+<p>Incident Response</p>
+<ul>
+<li>Accelerate scoping and containment</li>
+<li>Improve attribution and confidence</li>
+</ul>
+<p>Vulnerability Management</p>
+<ul>
+<li>Prioritize patching based on active exploitation</li>
+<li>Align exposure with threat actor capability</li>
+</ul>
+<h2 id="final-thoughts">Final Thoughts
+</h2><p>Threat intelligence is only valuable when it drives action. The goal is not to know everything about the threat landscape, but to know the right things that help your organization detect faster, respond smarter, and reduce risk. When threat intelligence is tightly integrated with threat hunting, detection engineering, and incident response, it becomes a force multiplier rather than a reporting function.</p>
 
 
 </section>

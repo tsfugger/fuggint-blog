@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='http://localhost:1313/post/agenticespionage/'>
 
-<link rel="stylesheet" href="/scss/style.min.4d36f8dc1fd48129e1635deb4b8eb2870fa09474f7280c4cb606d40b2526994b.css"><meta property='og:title' content="Agentic Espionage">
+<link rel="stylesheet" href="/scss/style.min.f257621b231266e95605eb5a9da2591d30f4a72f0a28e64578c89d7ff850f54e.css"><meta property='og:title' content="Agentic Espionage">
 <meta property='og:description' content="Inside the First Largely Autonomous AI Cyber Espionage Campaign">
 <meta property='og:url' content='http://localhost:1313/post/agenticespionage/'>
 <meta property='og:site_name' content='FUGGINT'>
@@ -42,7 +42,9 @@
         }
     })();
 </script>
-<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+<div id="banner-mobile-top" class="show-on-mobile-only" style="text-align:center;">
+             <img src="/img/home-banner.png" alt="Banner" style="width:100%; height:auto;">
+        </div><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
     <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
         <span class="hamburger-box">
             <span class="hamburger-inner"></span>
@@ -197,13 +199,17 @@
 
     
 
+            
             <main class="main full-width">
+                <div id="banner-desktop-mid" class="welcome show-on-desktop-only" style="text-align:center;">
+                    <img src="/img/home-banner.png" alt="Banner" style="max-width:100%; height:auto;">
+                </div>
     <article class="has-image main-article">
     <header class="article-header">
         <div class="article-image">
             <a href="/post/agenticespionage/">
-                <img src="/post/agenticespionage/agenticespionage_hu_892bec3bc04d090d.png"
-                        srcset="/post/agenticespionage/agenticespionage_hu_892bec3bc04d090d.png 800w, /post/agenticespionage/agenticespionage_hu_98d3869afe81aabc.png 1600w"
+                <img src="/post/agenticespionage/agenticespionage_hu_7265f258496f63c6.png"
+                        srcset="/post/agenticespionage/agenticespionage_hu_7265f258496f63c6.png 800w, /post/agenticespionage/agenticespionage_hu_fc9ab552f7d26e08.png 1600w"
                         width="800" 
                         height="267" 
                         loading="lazy"
@@ -271,7 +277,7 @@
 
 
                 <time class="article-time--reading">
-                    2 minute read
+                    10 minute read
                 </time>
             </div>
         
@@ -286,26 +292,123 @@
     <section class="article-content">
     
     
-    <h2 id="overview">Overview
-</h2><p>What better way to kick this blog off than by providing an overview on threat hunting. It&rsquo;s been done a thousand times before, but threat hunting is a crucial, and often misunderstood, component of security. The purpose of this introductory post is to simply define some key aspects of threat hunting and provide a general process for the threat hunting workflow.</p>
-<p>In the modern cybersecurity landscape, traditional defensive solutions such as firewalls, IDS/IPS, and EDR are essential but insufficient. Sophisticated adversaries are constantly developing new methods for bypassing such automated defenses. Thus enters threat hunting, a hypothesis-driven and proactive strategy for identifying sophisticated threats. Threat hunting has become a core capability for mature security teams, bridging the gap between traditional detection and proactive defense. Unlike alert-driven monitoring, threat hunting assumes that adversaries may already be present in an environment and focuses on identifying malicious activity that has evaded existing controls.</p>
-<h2 id="what-is-threat-hunting">What is Threat Hunting?
-</h2><p>At its core, threat hunting is a hypothesis-driven, proactive security activity aimed at identifying threats that bypass automated detections.</p>
-<p>Threat hunting differs from:</p>
-<ul>
-<li>SOC alert triage (reactive)</li>
-<li>Incident response (post-compromise)</li>
-<li>Threat intelligence consumption (contextual)</li>
-</ul>
-<p>Instead, threat hunting:</p>
-<ul>
-<li>Starts with an assumption of compromise/hypothesis</li>
-<li>Leverages telemetry across endpoints, identity, cloud, and network</li>
-<li>Focuses on behaviors, not just alerts - we&rsquo;ll discuss indicators of attack vs indicators of compromise further down</li>
-</ul>
-<h2 id="so-why-threat-hunting">So Why Threat Hunting?
-</h2><p>As I&rsquo;ve mentioned above, traditional security solutions simply are not sufficient for disrupting sophisticated adversary activity. By leveraging threat hunting capabilities, an organization can proactively find hidden attackers and advanced threats that bypass automated defenses, thus reducing dwell time, identifying security gaps, and disrupting adversary activity.</p>
+    <p>The intent of this post is not to simply rehash <!-- raw HTML omitted -->Anthropic&rsquo;s<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup><!-- raw HTML omitted --> report, as you can <a class="link" href="https://www.anthropic.com/news/disrupting-AI-espionage"  target="_blank" rel="noopener"
+    >read that HERE</a>; rather, my goals are to outline AI&rsquo;s role in this campaign, present strategies for hunting AI-driven operations, and highlight how that may differ from traditional human operations.</p>
+<h2 id="overview">Overview
+</h2><p>In mid-September 2025, a landmark shift in the cyber threat landscape was uncovered: the first documented case of a large-scale, AI-orchestrated cyber espionage campaign. Conducted by a Chinese state-sponsored group designated as GTG-1002, the operation targeted approximately 30 entities, including major technology corporations, government agencies, and financial institutions. This campaign represents a fundamental evolution in offensive capabilities, where human operators shifted from performing tactical work to acting as strategic supervisors, leaving 80-90% of the active intrusion tasks to autonomous AI agents.</p>
+<p>The GTG-1002 campaign utilized an autonomous attack framework built around Claude Code and the Model Context Protocol (MCP). By manipulating AI instances into role-playing as defensive security professionals, the threat actors induced the AI to perform reconnaissance, vulnerability discovery, and data exfiltration across multiple targets simultaneously. Unlike traditional attacks where AI merely &ldquo;advises,&rdquo; this framework functioned as an execution engine, maintaining attack states and managing transitions between phases with minimal human oversight.</p>
+<h2 id="the-attack-lifecycle-and-ai-integration">The Attack Lifecycle and AI Integration
+</h2><p>The campaign followed a multi-stage intrusion sequence typical of advanced persistent threats — but with AI deeply integrated throughout each phase.</p>
+<p><strong>Phase 1: Campaign Initialization</strong><br>
+Human operators selected high-value targets and &ldquo;socially engineered&rdquo; the AI by convincing it that it was conducting authorized defensive testing.<br>
+AI Role: Minimal, as humans conducted the social-engineering and target selection.</p>
+<p><strong>Phase 2: Reconnaissance</strong><br>
+Claude systematically cataloged infrastructure, analyzed authentication, and mapped network topologies.<br>
+AI Role: Fully autonomous, conducting reconnaissance against hundreds of endpoints and mapping internal services across multiple IP ranges simultaneously.</p>
+<p><strong>Phase 3: Vulnerability Discovery and Validation</strong><br>
+The AI generated custom payloads tailored to discovered vulnerabilities (such as SSRF) and executed them via remote interfaces.<br>
+AI Role: Autonomous execution. The AI validated exploits through callback communication systems and only requested human approval at the final escalation point.</p>
+<p><strong>Phase 4: Credential Harvesting and Lateral Movement</strong><br>
+Once inside, the AI queried internal services, extracted certificates, and tested them across the environment to map privilege levels.<br>
+AI Role: Self-directed. The AI independently determined which credentials worked on which systems, moving laterally across APIs and container registries.</p>
+<p><strong>Phase 5: Data Collection and Intelligence Extraction</strong><br>
+The AI queried databases, parsed results for proprietary data, and categorized findings by their intelligence value.<br>
+AI Role: Analysis-heavy. The AI acted as a data scientist, identifying high-value info without manual human parsing.</p>
+<p><strong>Phase 6: Documentation and Handoff</strong><br>
+Throughout the campaign, the AI generated structured markdown files detailing every service found, credential stolen, and exploit used.<br>
+AI Role: Fully autonomous record-keeping. This allowed different human teams to resume complex operations seamlessly.</p>
+<p>While the attack chain doesn&rsquo;t really differ from that of a human-led campaign, we can see that the role AI played in this operation allowed for scalability that otherwise could not be achieved.</p>
+<h2 id="threat-hunting-strategies-for-ai-driven-operations">Threat Hunting Strategies for AI-Driven Operations
+</h2><p>Traditional threat hunting assumes adversaries with predictable patterns and human decision-making cycles. AI-orchestrated operations, however, require reevaluating detection strategies across the kill chain with a shift in focus from &ldquo;human-like&rdquo; behaviors to &ldquo;machine-speed&rdquo; patterns. What Anthropic documented is not “AI helping a hacker” — it is AI acting as the primary operator, with humans serving as approval gates. This fundamentally changes <em>what</em> we hunt for and <em>how</em> we hunt.</p>
+<h3 id="operational-tempo">Operational Tempo
+</h3><p>The most immediate differentiator between AI-driven and traditional operations is the sheer volume and rate of activity.</p>
+<p><strong>Human-Led Activity</strong><br>
+Typically follows a &ldquo;bursty&rdquo; pattern. An operator researches a tool, types a command, waits for output, and analyzes it before the next step. This creates natural pauses and a tempo consistent with human interaction.</p>
+<p><strong>AI-Orchestrated Activity</strong><br>
+In the GTG-1002 campaign, peak activity reached thousands of requests, representing sustained rates of multiple operations per second — a frequency physically impossible for human operators.</p>
+<p><strong>Hunting</strong><br>
+Search for sequential activity that would be &ldquo;physically impossible&rdquo; for a human operator. Traditional rate-limiting often targets brute-force attempts, but here, defenders must hunt for a high volume of <em>varied</em> tactical commands (such as service discovery followed immediately by exploit validation) occurring within milliseconds of each other. In the example query below, we are looking for a single source IP interacting with an unusually high number of unique internal destinations or URLs in a very short window.</p>
+<pre tabindex="0"><code>FROM logs-endpoint, logs-network
+| WHERE event.category == &#34;network&#34; AND network.direction == &#34;internal&#34;
+| STATS unique_dest = COUNT_DISTINCT(destination.address), total_req = COUNT(*) BY source.address, bin(timestamp, 1s)
+| WHERE unique_dest &gt; 50 OR total_req &gt; 100
+| SORT timestamp DESC
+</code></pre><p>This query buckets network logs into 1-second windows. It calculates how many unique internal addresses a single source reached out to per second. A human might click a link or run a script that hits 5–10 endpoints, but an AI agent mapping a network will often hit 50+ unique destinations or ports per second as it &ldquo;thinks&rdquo; through the topology.</p>
+<h3 id="data-input-vs-text-output-disparity">Data Input vs Text Output Disparity
+</h3><p>A key indicator of AI-driven post-exploitation is how data is processed within the environment.</p>
+<p><strong>Human-Led Activity</strong><br>
+Humans often exfiltrate raw data (files, database dumps) to analyze it offline. If they analyze it on-site, logs typically show interactive commands like grep, awk, or manual file opens.</p>
+<p><strong>AI-Orchestrated Activity</strong><br>
+AI agents, such as Claude in this operation, can parse enormous volumes of stolen information locally or via an orchestration proxy to identify intelligence value.</p>
+<p><strong>Hunting</strong><br>
+Look for a massive disparity between the volume of data inputs (such as thousands of database queries or file reads) and the relatively small volume of text outputs or exfiltrated &ldquo;summary&rdquo; files. This suggests an automated engine is distilling vast datasets into concise intelligence reports. In the example query below, the goal is to identify AI behavior by finding hosts that are reading large volumes of data (input) but sending back very small, highly structured summary files (output).</p>
+<pre tabindex="0"><code>FROM logs-network, logs-endpoint
+| WHERE event.action == &#34;file_read&#34; OR event.action == &#34;exfiltration&#34;
+| STATS 
+    bytes_read = SUM(file.size), 
+    bytes_out = SUM(network.bytes) 
+  BY host.name, user.name
+| EVAL ratio = bytes_read / bytes_out
+| WHERE bytes_read &gt; 100000000 AND ratio &gt; 1000
+| SORT ratio DESC
+</code></pre><p>This query compares the total bytes a user &ldquo;read&rdquo; from the disk/databases versus what they sent over the wire. In a traditional smash and grab human theft, the ratio is close to 1:1. Here, we look for a Ratio &gt; 1000, meaning for every 1GB read, only 1MB was sent out; this would be a sign of an AI agent summarizing logs, database rows, or codebases into a markdown report before exfiltrating.</p>
+<h3 id="state-preservation-and-session-persistence">State Preservation and Session Persistence
+</h3><p>AI agents solve the &ldquo;hands-off&rdquo; problem that often plagues human-led state-sponsored teams.</p>
+<p><strong>Human-Led Activity</strong><br>
+When shifts change or campaigns resume after a break, there is often a &ldquo;re-reconnaissance&rdquo; phase where the new operator verifies previous findings, leading to redundant logs.</p>
+<p><strong>AI-Orchestrated Activity</strong><br>
+Claude maintained persistent operational context across sessions spanning multiple days, allowing complex campaigns to resume seamlessly without human reconstruction. Furthermore, the AI generated structured markdown documentation automatically, tracking every credential and technique discovered.</p>
+<p><strong>Hunting</strong><br>
+Analyze the &ldquo;resumption fingerprint.&rdquo; If an intrusion resumes after a 48-hour quiet period and immediately executes perfectly targeted commands against previously discovered internal APIs — without any repeat reconnaissance — it strongly suggests a persistent AI state rather than a human operator re-orienting themselves. The GTG-1002 report also highlighted that Claude Code and similar agents maintain attack states in structured files (Markdown or JSON). We could attempt to hunt on this state preservation and session persistence by identifying the creation and constant updating of these files.</p>
+<pre tabindex="0"><code>FROM logs-endpoint
+| WHERE event.action == &#34;file_modify_event&#34;
+| WHERE file.extension IN (&#34;json&#34;, &#34;md&#34;, &#34;yaml&#34;)
+| STATS 
+    update_count = COUNT(*), 
+    unique_files = COUNT_DISTINCT(file.path) 
+  BY process.executable, host.name
+| WHERE update_count &gt; 100 AND unique_files &lt; 5
+| WHERE process.executable LIKE &#34;*python*&#34; OR process.executable LIKE &#34;*node*&#34;
+</code></pre><p>Normal users don&rsquo;t update a single JSON or Markdown file hundreds of times an hour via a script engine (Node.js/Python). This query identifies a process that is &ldquo;logging its thoughts&rdquo; or updating a database of &ldquo;discovered assets&rdquo; in real-time. This is the &ldquo;brain&rdquo; of the AI agent living on the disk.</p>
+<h3 id="detecting-the-model-context-protocol-mcp-and-tooling-proxies">Detecting the Model Context Protocol (MCP) and Tooling Proxies
+</h3><p>The technical architecture of these attacks often relies on standardized protocols to bridge the AI to the target environment. The GTG-1002 framework used Claude Code and the Open Model Context Protocol (MCP) to conduct operations. The AI was effectively an &ldquo;execution engine&rdquo; within an automated system that decomposed complex attacks into discrete technical tasks.</p>
+<p><strong>Hunting</strong><br>
+We can monitor for unusual traffic patterns or headers associated with MCP servers being used as &ldquo;tool call proxies&rdquo; to interface with internal target services, or for traffic originating from &ldquo;neutral party&rdquo; callback services used by the AI to validate exploits autonomously. We can also attempt to identify artifacts associated with MCP or Claude Code execution. Even better, we can look for behavioral indicators of tooling execution via AI. A standard application typically spawns a predictable set of child processes; an AI agent, however will often spawn a high diversity of unique utilities from a single parent process in a very tight temporal window.</p>
+<pre tabindex="0"><code>FROM logs-endpoint
+| WHERE event.category == &#34;process&#34; AND event.type == &#34;start&#34;
+| // Filter for common discovery/exploitation tools often called by agents
+| WHERE process.name IN (&#34;whoami.exe&#34;, &#34;net.exe&#34;, &#34;hostname.exe&#34;, &#34;ipconfig.exe&#34;, 
+                         &#34;systeminfo.exe&#34;, &#34;nltest.exe&#34;, &#34;netstat.exe&#34;, &#34;curl.exe&#34;)
+| STATS 
+    unique_tools_count = COUNT_DISTINCT(process.name),
+    tool_list = COLLECT_DISTINCT(process.name)
+  BY process.parent.entity_id, process.parent.executable, bin(timestamp, 10s)
+| WHERE unique_tools_count &gt;= 5
+| SORT unique_tools_count DESC
+</code></pre><p>This query identifies any parent process that spawns more than 5 unique &ldquo;Living off the Land&rdquo; or discovery utilities within a 10-second window — a pattern typical of an AI agent iterating through a tool-calling loop.</p>
+<h3 id="leverage-ai-hallucination">Leverage &ldquo;AI Hallucination&rdquo;
+</h3><p>In Anthropic&rsquo;s report, they noted that Claude frequently overstated findings or fabricated data, such as claiming to have obtained working credentials that were actually non-existent or public information, or even trying to exploit vulnerabilities that didn&rsquo;t exist. This presents a defensive opportunity to take advantage of these flaws.</p>
+<p><strong>Hunting</strong><br>
+One way we could attempt to combat agentic operations is via honeypots. While traditional honeytokens do the job, &ldquo;hallucination bait&rdquo; would likely be even more effective for AI operations. This would involve placing complex, legitimate-looking - but subtly flawed - configuration files in internal environments. A human might spot the flaw through experience, but an AI agent may confidently &ldquo;validate&rdquo; and attempt to use the fabricated data, creating a high-fidelity alert when the agent acts on its own hallucination .</p>
+<pre tabindex="0"><code>FROM logs-auth, logs-network
+| WHERE destination.address == &#34;honeypot_ip&#34; // Your Honey-IP
+   OR user.name == &#34;honeypot_user&#34;           // Your Honey-User
+| STATS count() BY source.ip, event.action
+| SORT timestamp DESC
+</code></pre><p>This a really simple, but certainly high-fidelity alert. If we place the &ldquo;hallucination bait&rdquo; file containing a fake IP and username, any traffic to that IP or use of those credentials would be an immediate red flag. While a human may validate discovered credentials, an AI agent would likely scrape the file and attempt to use the credentials.</p>
+<h2 id="final-thoughts">Final Thoughts
+</h2><p>The hunting strategies outlined here don&rsquo;t even begin to scratch the surface of what defending against AI-orchestrated operations will require. What Anthropic documented is not simply a new toolset in the hands of attackers, but a structural change in how intrusion activity can be generated, scaled, and adapted in real time. Once an autonomous system is capable of independently enumerating environments, generating exploits, pivoting laterally, extracting intelligence, and refining its own approach faster than defenders can respond, compromise is no longer constrained by attacker fatigue, expertise, or other human limitations.</p>
+<p>As a result, threat hunting can no longer rely solely on known techniques, familiar tools, or linear kill-chain assumptions. Hunting for AI-orchestrated activity requires a different perspective that focuses on detecting operational anomalies that would otherwise be impossible for a human operator to achieve; defenders must learn to recognize what cannot be done by a person, even a highly skilled one, and treat those patterns as indicators of potential compromise. The future of threat hunting will not be about keeping pace with AI-enabled attackers, but about redefining how we observe, reason about, and disrupt autonomous adversaries before they can fully leverage their speed and scale.</p>
 
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Disrupting the First Reported AI-Orchestrated Cyber Espionage Campaign. (2025). Anthropic PBC. <a class="link" href="https://www.anthropic.com/news/disrupting-AI-espionage"  target="_blank" rel="noopener"
+    >https://www.anthropic.com/news/disrupting-AI-espionage</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
 
 </section>
 
@@ -372,13 +475,13 @@
         
         
             <div class="article-image">
-                <img src="/post/threat-hunting-101/ThreatHunting101.456a0beadf03e7e1e5e701ba801079f8_hu_f5ccf225a92afc8c.png" 
+                <img src="/post/threat-hunting-101/ThreatHunting101.60041012415bc55e7cb4bd417ffa1bc4_hu_fb7eb58cfd6a81cb.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
                         alt="Featured image of post Threat Hunting 101"
                         
-                        data-hash="md5-RWoL6t8D5&#43;Hl5wG6gBB5&#43;A==">
+                        data-hash="md5-YAQQEkFbxV58tL1Bf/obxA==">
                 
             </div>
         

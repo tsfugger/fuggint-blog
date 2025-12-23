@@ -6,14 +6,75 @@
         <description>Recent content in Threat Intelligence on FUGGINT</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Wed, 17 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/categories/threat-intelligence/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 19 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/categories/threat-intelligence/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Agentic Espionage</title>
+        <link>http://localhost:1313/post/agenticespionage/</link>
+        <pubDate>Fri, 19 Dec 2025 00:00:00 +0000</pubDate>
+        
+        <guid>http://localhost:1313/post/agenticespionage/</guid>
+        <description>&lt;img src="http://localhost:1313/post/agenticespionage/agenticespionage.png" alt="Featured image of post Agentic Espionage" /&gt;&lt;p&gt;The intent of this post is not to simply rehash &lt;!-- raw HTML omitted --&gt;Anthropic&amp;rsquo;s&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;!-- raw HTML omitted --&gt; report, as you can &lt;a class=&#34;link&#34; href=&#34;https://www.anthropic.com/news/disrupting-AI-espionage&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;read that HERE&lt;/a&gt;; rather, my goals are to outline AI&amp;rsquo;s role in this campaign, present strategies for hunting AI-driven operations, and highlight how that may differ from traditional human operations.&lt;/p&gt;
+&lt;h2 id=&#34;overview&#34;&gt;Overview
+&lt;/h2&gt;&lt;p&gt;In mid-September 2025, a landmark shift in the cyber threat landscape was uncovered: the first documented case of a large-scale, AI-orchestrated cyber espionage campaign. Conducted by a Chinese state-sponsored group designated as GTG-1002, the operation targeted approximately 30 entities, including major technology corporations, government agencies, and financial institutions. This campaign represents a fundamental evolution in offensive capabilities, where human operators shifted from performing tactical work to acting as strategic supervisors, leaving 80-90% of the active intrusion tasks to autonomous AI agents.&lt;/p&gt;
+&lt;p&gt;The GTG-1002 campaign utilized an autonomous attack framework built around Claude Code and the Model Context Protocol (MCP). By manipulating AI instances into role-playing as defensive security professionals, the threat actors induced the AI to perform reconnaissance, vulnerability discovery, and data exfiltration across multiple targets simultaneously. Unlike traditional attacks where AI merely &amp;ldquo;advises,&amp;rdquo; this framework functioned as an execution engine, maintaining attack states and managing transitions between phases with minimal human oversight.&lt;/p&gt;
+&lt;h2 id=&#34;the-attack-lifecycle-and-ai-integration&#34;&gt;The Attack Lifecycle and AI Integration
+&lt;/h2&gt;&lt;p&gt;The campaign followed a multi-stage intrusion sequence typical of advanced persistent threats — but with AI deeply integrated throughout each phase.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Phase 1: Campaign Initialization&lt;/strong&gt;&lt;br&gt;
+Human operators selected high-value targets and &amp;ldquo;socially engineered&amp;rdquo; the AI by convincing it that it was conducting authorized defensive testing.&lt;br&gt;
+AI Role: Minimal, as humans conducted the social-engineering and target selection.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Phase 2: Reconnaissance&lt;/strong&gt;&lt;br&gt;
+Claude systematically cataloged infrastructure, analyzed authentication, and mapped network topologies.&lt;br&gt;
+AI Role: Fully autonomous, conducting reconnaissance against hundreds of endpoints and mapping internal services across multiple IP ranges simultaneously.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Phase 3: Vulnerability Discovery and Validation&lt;/strong&gt;&lt;br&gt;
+The AI generated custom payloads tailored to discovered vulnerabilities (such as SSRF) and executed them via remote interfaces.&lt;br&gt;
+AI Role: Autonomous execution. The AI validated exploits through callback communication systems and only requested human approval at the final escalation point.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Phase 4: Credential Harvesting and Lateral Movement&lt;/strong&gt;&lt;br&gt;
+Once inside, the AI queried internal services, extracted certificates, and tested them across the environment to map privilege levels.&lt;br&gt;
+AI Role: Self-directed. The AI independently determined which credentials worked on which systems, moving laterally across APIs and container registries.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Phase 5: Data Collection and Intelligence Extraction&lt;/strong&gt;&lt;br&gt;
+The AI queried databases, parsed results for proprietary data, and categorized findings by their intelligence value.&lt;br&gt;
+AI Role: Analysis-heavy. The AI acted as a data scientist, identifying high-value info without manual human parsing.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Phase 6: Documentation and Handoff&lt;/strong&gt;&lt;br&gt;
+Throughout the campaign, the AI generated structured markdown files detailing every service found, credential stolen, and exploit used.&lt;br&gt;
+AI Role: Fully autonomous record-keeping. This allowed different human teams to resume complex operations seamlessly.&lt;/p&gt;
+&lt;p&gt;While the attack chain doesn&amp;rsquo;t really differ from that of a human-led campaign, we can see that the role AI played in this operation allowed for scalability that otherwise could not be achieved.&lt;/p&gt;
+&lt;h2 id=&#34;threat-hunting-ai-driven-vs-traditional-operations&#34;&gt;Threat Hunting: AI-Driven vs. Traditional Operations
+&lt;/h2&gt;&lt;p&gt;Traditional threat hunting assumes adversaries with predictable patterns and human decision-making cycles. AI-orchestrated operations, however, require reevaluating detection strategies across the kill chain with a shift in focus from &amp;ldquo;human-like&amp;rdquo; behaviors to &amp;ldquo;machine-speed&amp;rdquo; patterns. What Anthropic documented is not “AI helping a hacker” — it is AI acting as the primary operator, with humans serving as approval gates. This fundamentally changes &lt;em&gt;what&lt;/em&gt; we hunt for and &lt;em&gt;how&lt;/em&gt; we hunt.&lt;/p&gt;
+&lt;h3 id=&#34;operational-tempo&#34;&gt;Operational Tempo
+&lt;/h3&gt;&lt;p&gt;The most immediate differentiator between AI-driven and traditional operations is the sheer volume and rate of activity.
+&lt;strong&gt;Human-Led Activity&lt;/strong&gt;&lt;br&gt;
+Typically follows a &amp;ldquo;bursty&amp;rdquo; pattern. An operator researches a tool, types a command, waits for output, and analyzes it before the next step. This creates natural pauses and a tempo consistent with human interaction.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;AI-Orchestrated Activity&lt;/strong&gt;
+In the GTG-1002 campaign, peak activity reached thousands of requests, representing sustained rates of multiple operations per second — a frequency physically impossible for human operators.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Hunting&lt;/strong&gt;
+Search for sequential activity that would be &amp;ldquo;physically impossible&amp;rdquo; for a human operator. Traditional rate-limiting often targets brute-force attempts, but here, defenders must hunt for a high volume of &lt;em&gt;varied&lt;/em&gt; tactical commands (such as service discovery followed immediately by exploit validation) occurring within milliseconds of each other. In the example query below, we are looking for a single source IP interacting with an unusually high number of unique internal destinations or URLs in a very short window.&lt;/p&gt;
+&lt;p&gt;FROM logs-endpoint, logs-network
+| WHERE event.category == &amp;ldquo;network&amp;rdquo; AND network.direction == &amp;ldquo;internal&amp;rdquo;
+| STATS unique_dest = COUNT_DISTINCT(destination.address), total_req = COUNT(*) BY source.address, bin(timestamp, 1s)
+| WHERE unique_dest &amp;gt; 50 OR total_req &amp;gt; 100
+| SORT timestamp DESC&lt;/p&gt;
+&lt;p&gt;This query buckets network logs into 1-second windows. It calculates how many unique internal addresses a single source reached out to per second. A human might click a link or run a script that hits 5–10 endpoints, but an AI agent mapping a network will often hit 50+ unique destinations or ports per second as it &amp;ldquo;thinks&amp;rdquo; through the topology.&lt;/p&gt;
+
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;Disrupting the First Reported AI-Orchestrated Cyber Espionage Campaign. (2025). Anthropic PBC. &lt;a class=&#34;link&#34; href=&#34;https://www.anthropic.com/news/disrupting-AI-espionage&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.anthropic.com/news/disrupting-AI-espionage&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        </item>
+        <item>
         <title>Threat Intelligence 101</title>
         <link>http://localhost:1313/post/threat-intelligence-101/</link>
         <pubDate>Wed, 17 Dec 2025 00:00:00 +0000</pubDate>
         
         <guid>http://localhost:1313/post/threat-intelligence-101/</guid>
         <description>&lt;img src="http://localhost:1313/post/threat-intelligence-101/ThreatIntelligence101.png" alt="Featured image of post Threat Intelligence 101" /&gt;&lt;h2 id=&#34;overview&#34;&gt;Overview
-&lt;/h2&gt;&lt;p&gt;Threat Intelligence (TI) is the practice of collecting, analyzing, and operationalizing information about adversaries, their capabilities, infrastructure, and intent to inform security decision‑making. Where threat hunting is proactive detection inside your environment, threat intelligence provides the external context that helps you decide &lt;em&gt;what&lt;/em&gt; to hunt for, &lt;em&gt;why&lt;/em&gt; it matters, and &lt;em&gt;how&lt;/em&gt; attackers are likely to operate.&lt;/p&gt;
+&lt;/h2&gt;&lt;p&gt;Now that I&amp;rsquo;ve covered the basics of threat hunting, let&amp;rsquo;s pivot to threat intelligence. The intent of this writeup is to provide a simple, broad overview of threat intelligence, and to touch on how threat intelligence integrates with threat hunting.&lt;/p&gt;
+&lt;p&gt;Threat Intelligence (TI) is the practice of collecting, analyzing, and operationalizing information about adversaries, their capabilities, infrastructure, and intent to inform security decision‑making. Where threat hunting is proactive detection inside your environment, threat intelligence provides the external context that helps you decide &lt;em&gt;what&lt;/em&gt; to hunt for, &lt;em&gt;why&lt;/em&gt; it matters, and &lt;em&gt;how&lt;/em&gt; attackers are likely to operate.&lt;/p&gt;
 &lt;p&gt;A mature threat intelligence program does not exist to produce reports for their own sake — it exists to reduce risk, improve detection, and enable faster, more confident response.&lt;/p&gt;
 &lt;h2 id=&#34;what-is-threat-intelligence&#34;&gt;What is Threat Intelligence
 &lt;/h2&gt;&lt;h3 id=&#34;what-it-is&#34;&gt;What It Is
@@ -28,6 +89,119 @@
 &lt;li&gt;A replacement for detection engineering, threat hunting, or incident response&lt;/li&gt;
 &lt;li&gt;A one‑time project or a purely vendor‑driven capability&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h2 id=&#34;pillars-of-threat-intelligence&#34;&gt;Pillars of Threat Intelligence
+&lt;/h2&gt;&lt;p&gt;Not all intelligence is created equally. To be effective, intel must be tailored for both audience and focus. There are four primary &amp;ldquo;pillars&amp;rdquo; of intelligence that we will discuss. The distinction between each of these four types is the difference between a reactive SOC and a proactive security program.&lt;/p&gt;
+&lt;h3 id=&#34;strategic-intelligence&#34;&gt;Strategic Intelligence
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;Target Audience:
+&lt;ul&gt;
+&lt;li&gt;CISOs, Board Members, Executives, Risk Leaders&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Focus:
+&lt;ul&gt;
+&lt;li&gt;High-level trends, risk landscape, and geopolitical shifts&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Example:
+&lt;ul&gt;
+&lt;li&gt;A report on how AI-driven phishing is specifically targeting the financial sector&amp;rsquo;s regional banks&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;operational-intelligence&#34;&gt;Operational Intelligence
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;Target Audience:
+&lt;ul&gt;
+&lt;li&gt;SOC Managers, IR Leaders&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Focus:
+&lt;ul&gt;
+&lt;li&gt;Details on specific campaigns, intrusion sets, and attacker workflows&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Example:
+&lt;ul&gt;
+&lt;li&gt;A walkthrough of a specific ransomware campaign from initial access to data exfiltration&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;tactical-intelligence&#34;&gt;Tactical Intelligence
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;Target Audience:
+&lt;ul&gt;
+&lt;li&gt;CISOs, SOC Analysts, Detection Engineers, Threat Hunters&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Focus:
+&lt;ul&gt;
+&lt;li&gt;TTPs, MITRE ATT&amp;amp;CK mappings - the mechanics of an attack&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Example:
+&lt;ul&gt;
+&lt;li&gt;Adversaries abusing OAuth apps for persistence in cloud tenants&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;technical-intelligence&#34;&gt;Technical Intelligence
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;Target Audience:
+&lt;ul&gt;
+&lt;li&gt;SIEMs, EDR Systems, other SOC Tools and Automation&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Focus:
+&lt;ul&gt;
+&lt;li&gt;IOCs like IPs, hashes and domains - machine-readable data&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Example:
+&lt;ul&gt;
+&lt;li&gt;A list of 500 malicious IP addresses associated with a current ransomware campaign.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;sources-of-threat-intelligence&#34;&gt;Sources of Threat Intelligence
+&lt;/h2&gt;&lt;h3 id=&#34;open-source-intelligence-osint&#34;&gt;Open-Source Intelligence (OSINT)
+&lt;/h3&gt;&lt;p&gt;OSINT is the process of collecting and analyzing information that is publicly available. It is the &amp;ldquo;free&amp;rdquo; foundation of most CTI programs.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Government &amp;amp; Regulatory Feeds&lt;/strong&gt;&lt;br&gt;
+Reports from agencies like CISA (Known Exploited Vulnerabilities catalog) or FBI InfraGard.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Security Blogs &amp;amp; Research&lt;/strong&gt;&lt;br&gt;
+Deep dives from companies like Mandiant, SentinelOne, or independent researchers on platforms like X (Twitter) or Mastodon.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Technical Repositories&lt;/strong&gt;&lt;br&gt;
+Scanning tools like Shodan (for internet-connected devices) or VirusTotal (for checking if a file is malicious).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Vulnerability Databases&lt;/strong&gt;&lt;br&gt;
+The CVE (Common Vulnerabilities and Exposures) list tells you which software bugs are currently being exploited in the wild.&lt;/p&gt;
+&lt;h3 id=&#34;commercial-intelligence-vendors&#34;&gt;Commercial Intelligence Vendors
+&lt;/h3&gt;&lt;p&gt;If OSINT is the local news, Commercial Intelligence is a private investigative firm. Organizations pay for these services to get high-fidelity data that isn&amp;rsquo;t available to the general public.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Proprietary Telemetry&lt;/strong&gt;&lt;br&gt;
+Vendors like CrowdStrike or Microsoft see what is happening across millions of global endpoints. They turn this massive data set into &amp;ldquo;early warnings&amp;rdquo; for their customers.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Adversary Dossiers&lt;/strong&gt;&lt;br&gt;
+Deep-dive profiles on specific hacker groups. Instead of just &amp;ldquo;an IP address,&amp;rdquo; you get a report on &amp;ldquo;Fancy Bear&amp;rdquo; (a Russian state actor), including their typical office hours, preferred malware, and historical targets.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Finished Intelligence&lt;/strong&gt;&lt;br&gt;
+Human-curated reports that explain the &amp;ldquo;So What?&amp;rdquo; for executives. This saves your team hours of manual research by providing &amp;ldquo;ready-to-consume&amp;rdquo; analysis.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Data Breach &amp;amp; Dark Web Monitoring&lt;/strong&gt;&lt;br&gt;
+Many vendors (like Recorded Future or ZeroFox) specifically crawl illicit marketplaces to see if your company&amp;rsquo;s leaked credentials or &amp;ldquo;stolen&amp;rdquo; data are being sold before a breach becomes public.&lt;/p&gt;
+&lt;h3 id=&#34;information-sharing-communities&#34;&gt;Information Sharing Communities
+&lt;/h3&gt;&lt;p&gt;This sits between public and private intelligence and often reqeuires more specialized access.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;ISACs (Information Sharing and Analysis Centers)&lt;/strong&gt;&lt;br&gt;
+Industry-specific groups (e.g., FS-ISAC for Finance, H-ISAC for Healthcare) where competitors share threat data to protect the whole sector.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Dark Web Monitoring&lt;/strong&gt;&lt;br&gt;
+Specialized tools that &amp;ldquo;scrape&amp;rdquo; illicit forums and marketplaces to see if your company&amp;rsquo;s credentials or &amp;ldquo;leaked&amp;rdquo; data are being sold.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;SOCMINT (Social Media Intelligence)&lt;/strong&gt;&lt;br&gt;
+Monitoring social trends to spot coordinated &amp;ldquo;hacktivist&amp;rdquo; campaigns or early mentions of a new zero-day exploit.&lt;/p&gt;
+&lt;h3 id=&#34;internal-intelligence&#34;&gt;Internal Intelligence
+&lt;/h3&gt;&lt;p&gt;Internal intelligence is often the most valuable because it is 100% relevant to your specific environment.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Endpoint Telemetry (EDR/XDR)&lt;/strong&gt;&lt;br&gt;
+Your local &amp;ldquo;black boxes.&amp;rdquo; These provide details on process executions, registry changes, and lateral movement attempts.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Network &amp;amp; Flow Logs&lt;/strong&gt;&lt;br&gt;
+Firewall, DNS, and Proxy logs. These reveal where your data is going and if your machines are &amp;ldquo;calling home&amp;rdquo; to a Command &amp;amp; Control (C2) server.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Incident Response (IR) Reports&lt;/strong&gt;&lt;br&gt;
+Looking at past &amp;ldquo;post-mortems&amp;rdquo; from your own company. Attackers often return to the same victim using the same methods if they weren&amp;rsquo;t fully evicted.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Internal Honeypots&lt;/strong&gt;&lt;br&gt;
+Decoy systems like &amp;ldquo;fake&amp;rdquo; file servers or unpatched databases. Anyone touching these is automatically a high-fidelity threat.&lt;/p&gt;
 &lt;h2 id=&#34;threat-intelligence-lifecycle&#34;&gt;Threat Intelligence Lifecycle
 &lt;/h2&gt;&lt;p&gt;Like threat hunting, threat intelligence follows a repeatable, structured lifecycle to ensure consistency and impact.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;1. Planning and Direction&lt;/strong&gt;&lt;br&gt;
@@ -82,6 +256,44 @@ Reporting should be reviewed for usefulness, relevance, and impact, and then imp
 &lt;li&gt;Did it improve detections or response?&lt;/li&gt;
 &lt;li&gt;Was it timely and relevant?&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h2 id=&#34;threat-intelligence-vs-threat-hunting&#34;&gt;Threat Intelligence vs Threat Hunting
+&lt;/h2&gt;&lt;p&gt;Threat intelligence and threat hunting are mutually reinforcing.&lt;/p&gt;
+&lt;p&gt;Threat Intelligence enables Hunting by:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Identifying relevant adversaries&lt;/li&gt;
+&lt;li&gt;Highlighting emerging techniques&lt;/li&gt;
+&lt;li&gt;Providing hypotheses to test&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Threat Hunting feeds Intelligence by:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Validating or disproving reports&lt;/li&gt;
+&lt;li&gt;Discovering novel activity&lt;/li&gt;
+&lt;li&gt;Adding environment‑specific context&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;operationalizing-threat-intelligence&#34;&gt;Operationalizing Threat Intelligence
+&lt;/h2&gt;&lt;p&gt;Like with threat hunting, threat intelligence needs to result in actionable improvements to be useful, impactful, and successful. With the appropriate audience and focus, threat intel can drastically improve many processes across a security team.&lt;/p&gt;
+&lt;p&gt;Detection Engineering&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Translate TTPs into SIEM and EDR detections&lt;/li&gt;
+&lt;li&gt;Focus on behaviors, not just indicators&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Threat Hunting&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Build hunts around adversary tradecraft&lt;/li&gt;
+&lt;li&gt;Prioritize based on likelihood and impact&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Incident Response&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Accelerate scoping and containment&lt;/li&gt;
+&lt;li&gt;Improve attribution and confidence&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Vulnerability Management&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Prioritize patching based on active exploitation&lt;/li&gt;
+&lt;li&gt;Align exposure with threat actor capability&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;final-thoughts&#34;&gt;Final Thoughts
+&lt;/h2&gt;&lt;p&gt;Threat intelligence is only valuable when it drives action. The goal is not to know everything about the threat landscape, but to know the right things that help your organization detect faster, respond smarter, and reduce risk. When threat intelligence is tightly integrated with threat hunting, detection engineering, and incident response, it becomes a force multiplier rather than a reporting function.&lt;/p&gt;
 
 </description>
         </item>
