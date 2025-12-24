@@ -1,7 +1,7 @@
 +++
 author = "Tommy Fugger"
 title = "Threat Intelligence 101"
-date = "2025-12-17"
+date = "2025-12-19"
 draft = false
 description = "An Overview of Threat Intelligence"
 categories = ["Threat Intelligence"]

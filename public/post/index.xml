@@ -6,10 +6,10 @@
         <description>Recent content in Posts on FUGGINT</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Fri, 19 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 23 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Agentic Espionage</title>
         <link>http://localhost:1313/post/agenticespionage/</link>
-        <pubDate>Fri, 19 Dec 2025 00:00:00 +0000</pubDate>
+        <pubDate>Tue, 23 Dec 2025 00:00:00 +0000</pubDate>
         
         <guid>http://localhost:1313/post/agenticespionage/</guid>
         <description>&lt;img src="http://localhost:1313/post/agenticespionage/agenticespionage.png" alt="Featured image of post Agentic Espionage" /&gt;&lt;p&gt;The intent of this post is not to simply rehash &lt;!-- raw HTML omitted --&gt;Anthropic&amp;rsquo;s&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;!-- raw HTML omitted --&gt; report, as you can &lt;a class=&#34;link&#34; href=&#34;https://www.anthropic.com/news/disrupting-AI-espionage&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -38,22 +38,87 @@ AI Role: Analysis-heavy. The AI acted as a data scientist, identifying high-valu
 Throughout the campaign, the AI generated structured markdown files detailing every service found, credential stolen, and exploit used.&lt;br&gt;
 AI Role: Fully autonomous record-keeping. This allowed different human teams to resume complex operations seamlessly.&lt;/p&gt;
 &lt;p&gt;While the attack chain doesn&amp;rsquo;t really differ from that of a human-led campaign, we can see that the role AI played in this operation allowed for scalability that otherwise could not be achieved.&lt;/p&gt;
-&lt;h2 id=&#34;threat-hunting-ai-driven-vs-traditional-operations&#34;&gt;Threat Hunting: AI-Driven vs. Traditional Operations
+&lt;h2 id=&#34;threat-hunting-strategies-for-ai-driven-operations&#34;&gt;Threat Hunting Strategies for AI-Driven Operations
 &lt;/h2&gt;&lt;p&gt;Traditional threat hunting assumes adversaries with predictable patterns and human decision-making cycles. AI-orchestrated operations, however, require reevaluating detection strategies across the kill chain with a shift in focus from &amp;ldquo;human-like&amp;rdquo; behaviors to &amp;ldquo;machine-speed&amp;rdquo; patterns. What Anthropic documented is not “AI helping a hacker” — it is AI acting as the primary operator, with humans serving as approval gates. This fundamentally changes &lt;em&gt;what&lt;/em&gt; we hunt for and &lt;em&gt;how&lt;/em&gt; we hunt.&lt;/p&gt;
 &lt;h3 id=&#34;operational-tempo&#34;&gt;Operational Tempo
-&lt;/h3&gt;&lt;p&gt;The most immediate differentiator between AI-driven and traditional operations is the sheer volume and rate of activity.
-&lt;strong&gt;Human-Led Activity&lt;/strong&gt;&lt;br&gt;
+&lt;/h3&gt;&lt;p&gt;The most immediate differentiator between AI-driven and traditional operations is the sheer volume and rate of activity.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Human-Led Activity&lt;/strong&gt;&lt;br&gt;
 Typically follows a &amp;ldquo;bursty&amp;rdquo; pattern. An operator researches a tool, types a command, waits for output, and analyzes it before the next step. This creates natural pauses and a tempo consistent with human interaction.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;AI-Orchestrated Activity&lt;/strong&gt;
+&lt;p&gt;&lt;strong&gt;AI-Orchestrated Activity&lt;/strong&gt;&lt;br&gt;
 In the GTG-1002 campaign, peak activity reached thousands of requests, representing sustained rates of multiple operations per second — a frequency physically impossible for human operators.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Hunting&lt;/strong&gt;
+&lt;p&gt;&lt;strong&gt;Hunting&lt;/strong&gt;&lt;br&gt;
 Search for sequential activity that would be &amp;ldquo;physically impossible&amp;rdquo; for a human operator. Traditional rate-limiting often targets brute-force attempts, but here, defenders must hunt for a high volume of &lt;em&gt;varied&lt;/em&gt; tactical commands (such as service discovery followed immediately by exploit validation) occurring within milliseconds of each other. In the example query below, we are looking for a single source IP interacting with an unusually high number of unique internal destinations or URLs in a very short window.&lt;/p&gt;
-&lt;p&gt;FROM logs-endpoint, logs-network
-| WHERE event.category == &amp;ldquo;network&amp;rdquo; AND network.direction == &amp;ldquo;internal&amp;rdquo;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;FROM logs-endpoint, logs-network
+| WHERE event.category == &amp;#34;network&amp;#34; AND network.direction == &amp;#34;internal&amp;#34;
 | STATS unique_dest = COUNT_DISTINCT(destination.address), total_req = COUNT(*) BY source.address, bin(timestamp, 1s)
 | WHERE unique_dest &amp;gt; 50 OR total_req &amp;gt; 100
-| SORT timestamp DESC&lt;/p&gt;
-&lt;p&gt;This query buckets network logs into 1-second windows. It calculates how many unique internal addresses a single source reached out to per second. A human might click a link or run a script that hits 5–10 endpoints, but an AI agent mapping a network will often hit 50+ unique destinations or ports per second as it &amp;ldquo;thinks&amp;rdquo; through the topology.&lt;/p&gt;
+| SORT timestamp DESC
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This query buckets network logs into 1-second windows. It calculates how many unique internal addresses a single source reached out to per second. A human might click a link or run a script that hits 5–10 endpoints, but an AI agent mapping a network will often hit 50+ unique destinations or ports per second as it &amp;ldquo;thinks&amp;rdquo; through the topology.&lt;/p&gt;
+&lt;h3 id=&#34;data-input-vs-text-output-disparity&#34;&gt;Data Input vs Text Output Disparity
+&lt;/h3&gt;&lt;p&gt;A key indicator of AI-driven post-exploitation is how data is processed within the environment.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Human-Led Activity&lt;/strong&gt;&lt;br&gt;
+Humans often exfiltrate raw data (files, database dumps) to analyze it offline. If they analyze it on-site, logs typically show interactive commands like grep, awk, or manual file opens.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;AI-Orchestrated Activity&lt;/strong&gt;&lt;br&gt;
+AI agents, such as Claude in this operation, can parse enormous volumes of stolen information locally or via an orchestration proxy to identify intelligence value.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Hunting&lt;/strong&gt;&lt;br&gt;
+Look for a massive disparity between the volume of data inputs (such as thousands of database queries or file reads) and the relatively small volume of text outputs or exfiltrated &amp;ldquo;summary&amp;rdquo; files. This suggests an automated engine is distilling vast datasets into concise intelligence reports. In the example query below, the goal is to identify AI behavior by finding hosts that are reading large volumes of data (input) but sending back very small, highly structured summary files (output).&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;FROM logs-network, logs-endpoint
+| WHERE event.action == &amp;#34;file_read&amp;#34; OR event.action == &amp;#34;exfiltration&amp;#34;
+| STATS 
+    bytes_read = SUM(file.size), 
+    bytes_out = SUM(network.bytes) 
+  BY host.name, user.name
+| EVAL ratio = bytes_read / bytes_out
+| WHERE bytes_read &amp;gt; 100000000 AND ratio &amp;gt; 1000
+| SORT ratio DESC
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This query compares the total bytes a user &amp;ldquo;read&amp;rdquo; from the disk/databases versus what they sent over the wire. In a traditional smash and grab human theft, the ratio is close to 1:1. Here, we look for a Ratio &amp;gt; 1000, meaning for every 1GB read, only 1MB was sent out; this would be a sign of an AI agent summarizing logs, database rows, or codebases into a markdown report before exfiltrating.&lt;/p&gt;
+&lt;h3 id=&#34;state-preservation-and-session-persistence&#34;&gt;State Preservation and Session Persistence
+&lt;/h3&gt;&lt;p&gt;AI agents solve the &amp;ldquo;hands-off&amp;rdquo; problem that often plagues human-led state-sponsored teams.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Human-Led Activity&lt;/strong&gt;&lt;br&gt;
+When shifts change or campaigns resume after a break, there is often a &amp;ldquo;re-reconnaissance&amp;rdquo; phase where the new operator verifies previous findings, leading to redundant logs.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;AI-Orchestrated Activity&lt;/strong&gt;&lt;br&gt;
+Claude maintained persistent operational context across sessions spanning multiple days, allowing complex campaigns to resume seamlessly without human reconstruction. Furthermore, the AI generated structured markdown documentation automatically, tracking every credential and technique discovered.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Hunting&lt;/strong&gt;&lt;br&gt;
+Analyze the &amp;ldquo;resumption fingerprint.&amp;rdquo; If an intrusion resumes after a 48-hour quiet period and immediately executes perfectly targeted commands against previously discovered internal APIs — without any repeat reconnaissance — it strongly suggests a persistent AI state rather than a human operator re-orienting themselves. The GTG-1002 report also highlighted that Claude Code and similar agents maintain attack states in structured files (Markdown or JSON). We could attempt to hunt on this state preservation and session persistence by identifying the creation and constant updating of these files.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;FROM logs-endpoint
+| WHERE event.action == &amp;#34;file_modify_event&amp;#34;
+| WHERE file.extension IN (&amp;#34;json&amp;#34;, &amp;#34;md&amp;#34;, &amp;#34;yaml&amp;#34;)
+| STATS 
+    update_count = COUNT(*), 
+    unique_files = COUNT_DISTINCT(file.path) 
+  BY process.executable, host.name
+| WHERE update_count &amp;gt; 100 AND unique_files &amp;lt; 5
+| WHERE process.executable LIKE &amp;#34;*python*&amp;#34; OR process.executable LIKE &amp;#34;*node*&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Normal users don&amp;rsquo;t update a single JSON or Markdown file hundreds of times an hour via a script engine (Node.js/Python). This query identifies a process that is &amp;ldquo;logging its thoughts&amp;rdquo; or updating a database of &amp;ldquo;discovered assets&amp;rdquo; in real-time. This is the &amp;ldquo;brain&amp;rdquo; of the AI agent living on the disk.&lt;/p&gt;
+&lt;h3 id=&#34;detecting-the-model-context-protocol-mcp-and-tooling-proxies&#34;&gt;Detecting the Model Context Protocol (MCP) and Tooling Proxies
+&lt;/h3&gt;&lt;p&gt;The technical architecture of these attacks often relies on standardized protocols to bridge the AI to the target environment. The GTG-1002 framework used Claude Code and the Open Model Context Protocol (MCP) to conduct operations. The AI was effectively an &amp;ldquo;execution engine&amp;rdquo; within an automated system that decomposed complex attacks into discrete technical tasks.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Hunting&lt;/strong&gt;&lt;br&gt;
+We can monitor for unusual traffic patterns or headers associated with MCP servers being used as &amp;ldquo;tool call proxies&amp;rdquo; to interface with internal target services, or for traffic originating from &amp;ldquo;neutral party&amp;rdquo; callback services used by the AI to validate exploits autonomously. We can also attempt to identify artifacts associated with MCP or Claude Code execution. Even better, we can look for behavioral indicators of tooling execution via AI. A standard application typically spawns a predictable set of child processes; an AI agent, however will often spawn a high diversity of unique utilities from a single parent process in a very tight temporal window.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;FROM logs-endpoint
+| WHERE event.category == &amp;#34;process&amp;#34; AND event.type == &amp;#34;start&amp;#34;
+| // Filter for common discovery/exploitation tools often called by agents
+| WHERE process.name IN (&amp;#34;whoami.exe&amp;#34;, &amp;#34;net.exe&amp;#34;, &amp;#34;hostname.exe&amp;#34;, &amp;#34;ipconfig.exe&amp;#34;, 
+                         &amp;#34;systeminfo.exe&amp;#34;, &amp;#34;nltest.exe&amp;#34;, &amp;#34;netstat.exe&amp;#34;, &amp;#34;curl.exe&amp;#34;)
+| STATS 
+    unique_tools_count = COUNT_DISTINCT(process.name),
+    tool_list = COLLECT_DISTINCT(process.name)
+  BY process.parent.entity_id, process.parent.executable, bin(timestamp, 10s)
+| WHERE unique_tools_count &amp;gt;= 5
+| SORT unique_tools_count DESC
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This query identifies any parent process that spawns more than 5 unique &amp;ldquo;Living off the Land&amp;rdquo; or discovery utilities within a 10-second window — a pattern typical of an AI agent iterating through a tool-calling loop.&lt;/p&gt;
+&lt;h3 id=&#34;leverage-ai-hallucination&#34;&gt;Leverage &amp;ldquo;AI Hallucination&amp;rdquo;
+&lt;/h3&gt;&lt;p&gt;In Anthropic&amp;rsquo;s report, they noted that Claude frequently overstated findings or fabricated data, such as claiming to have obtained working credentials that were actually non-existent or public information, or even trying to exploit vulnerabilities that didn&amp;rsquo;t exist. This presents a defensive opportunity to take advantage of these flaws.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Hunting&lt;/strong&gt;&lt;br&gt;
+One way we could attempt to combat agentic operations is via honeypots. While traditional honeytokens do the job, &amp;ldquo;hallucination bait&amp;rdquo; would likely be even more effective for AI operations. This would involve placing complex, legitimate-looking - but subtly flawed - configuration files in internal environments. A human might spot the flaw through experience, but an AI agent may confidently &amp;ldquo;validate&amp;rdquo; and attempt to use the fabricated data, creating a high-fidelity alert when the agent acts on its own hallucination .&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;FROM logs-auth, logs-network
+| WHERE destination.address == &amp;#34;honeypot_ip&amp;#34; // Your Honey-IP
+   OR user.name == &amp;#34;honeypot_user&amp;#34;           // Your Honey-User
+| STATS count() BY source.ip, event.action
+| SORT timestamp DESC
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This a really simple, but certainly high-fidelity alert. If we place the &amp;ldquo;hallucination bait&amp;rdquo; file containing a fake IP and username, any traffic to that IP or use of those credentials would be an immediate red flag. While a human may validate discovered credentials, an AI agent would likely scrape the file and attempt to use the credentials.&lt;/p&gt;
+&lt;h2 id=&#34;final-thoughts&#34;&gt;Final Thoughts
+&lt;/h2&gt;&lt;p&gt;The hunting strategies outlined here don&amp;rsquo;t even begin to scratch the surface of what defending against AI-orchestrated operations will require. What Anthropic documented is not simply a new toolset in the hands of attackers, but a structural change in how intrusion activity can be generated, scaled, and adapted in real time. Once an autonomous system is capable of independently enumerating environments, generating exploits, pivoting laterally, extracting intelligence, and refining its own approach faster than defenders can respond, compromise is no longer constrained by attacker fatigue, expertise, or other human limitations.&lt;/p&gt;
+&lt;p&gt;As a result, threat hunting can no longer rely solely on known techniques, familiar tools, or linear kill-chain assumptions. Hunting for AI-orchestrated activity requires a different perspective that focuses on detecting operational anomalies that would otherwise be impossible for a human operator to achieve; defenders must learn to recognize what cannot be done by a person, even a highly skilled one, and treat those patterns as indicators of potential compromise. The future of threat hunting will not be about keeping pace with AI-enabled attackers, but about redefining how we observe, reason about, and disrupt autonomous adversaries before they can fully leverage their speed and scale.&lt;/p&gt;
 
 &lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
@@ -69,7 +134,7 @@ Search for sequential activity that would be &amp;ldquo;physically impossible&am
         <item>
         <title>Threat Intelligence 101</title>
         <link>http://localhost:1313/post/threat-intelligence-101/</link>
-        <pubDate>Wed, 17 Dec 2025 00:00:00 +0000</pubDate>
+        <pubDate>Fri, 19 Dec 2025 00:00:00 +0000</pubDate>
         
         <guid>http://localhost:1313/post/threat-intelligence-101/</guid>
         <description>&lt;img src="http://localhost:1313/post/threat-intelligence-101/ThreatIntelligence101.png" alt="Featured image of post Threat Intelligence 101" /&gt;&lt;h2 id=&#34;overview&#34;&gt;Overview
@@ -449,193 +514,6 @@ A hunt should always be documented; documentation turns a hunt into a key securi
 &lt;/h2&gt;&lt;p&gt;Threat hunting is the relentless pursuit of the unknown. It transitions security posture from a defensive mindset to an offensive one. By focusing on adversary behavior, leveraging frameworks like MITRE ATT&amp;amp;CK, and continuously refining detections, threat hunters can meaningfully disrupt sophisticated attackers and uncover threats that technology alone cannot catch.&lt;/p&gt;
 
 </description>
-        </item>
-        <item>
-        <title>Markdown Syntax Guide</title>
-        <link>http://localhost:1313/post/markdown-syntax/</link>
-        <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
-        
-        <guid>http://localhost:1313/post/markdown-syntax/</guid>
-        <description>&lt;img src="http://localhost:1313/post/markdown-syntax/pawel-czerwinski-8uZPynIu-rQ-unsplash.jpg" alt="Featured image of post Markdown Syntax Guide" /&gt;&lt;p&gt;This article offers a sample of basic Markdown syntax that can be used in Hugo content files, also it shows whether basic HTML elements are decorated with CSS in a Hugo theme.&lt;/p&gt;
-&lt;h2 id=&#34;headings&#34;&gt;Headings
-&lt;/h2&gt;&lt;p&gt;The following HTML &lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt;—&lt;code&gt;&amp;lt;h6&amp;gt;&lt;/code&gt; elements represent six levels of section headings. &lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt; is the highest section level while &lt;code&gt;&amp;lt;h6&amp;gt;&lt;/code&gt; is the lowest.&lt;/p&gt;
-&lt;h1 id=&#34;h1&#34;&gt;H1
-&lt;/h1&gt;&lt;h2 id=&#34;h2&#34;&gt;H2
-&lt;/h2&gt;&lt;h3 id=&#34;h3&#34;&gt;H3
-&lt;/h3&gt;&lt;h4 id=&#34;h4&#34;&gt;H4
-&lt;/h4&gt;&lt;h5 id=&#34;h5&#34;&gt;H5
-&lt;/h5&gt;&lt;h6 id=&#34;h6&#34;&gt;H6
-&lt;/h6&gt;&lt;h2 id=&#34;paragraph&#34;&gt;Paragraph
-&lt;/h2&gt;&lt;p&gt;Xerum, quo qui aut unt expliquam qui dolut labo. Aque venitatiusda cum, voluptionse latur sitiae dolessi aut parist aut dollo enim qui voluptate ma dolestendit peritin re plis aut quas inctum laceat est volestemque commosa as cus endigna tectur, offic to cor sequas etum rerum idem sintibus eiur? Quianimin porecus evelectur, cum que nis nust voloribus ratem aut omnimi, sitatur? Quiatem. Nam, omnis sum am facea corem alique molestrunt et eos evelece arcillit ut aut eos eos nus, sin conecerem erum fuga. Ri oditatquam, ad quibus unda veliamenimin cusam et facea ipsamus es exerum sitate dolores editium rerore eost, temped molorro ratiae volorro te reribus dolorer sperchicium faceata tiustia prat.&lt;/p&gt;
-&lt;p&gt;Itatur? Quiatae cullecum rem ent aut odis in re eossequodi nonsequ idebis ne sapicia is sinveli squiatum, core et que aut hariosam ex eat.&lt;/p&gt;
-&lt;h2 id=&#34;blockquotes&#34;&gt;Blockquotes
-&lt;/h2&gt;&lt;p&gt;The blockquote element represents content that is quoted from another source, optionally with a citation which must be within a &lt;code&gt;footer&lt;/code&gt; or &lt;code&gt;cite&lt;/code&gt; element, and optionally with in-line changes such as annotations and abbreviations.&lt;/p&gt;
-&lt;h4 id=&#34;blockquote-without-attribution&#34;&gt;Blockquote without attribution
-&lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;Tiam, ad mint andaepu dandae nostion secatur sequo quae.
-&lt;strong&gt;Note&lt;/strong&gt; that you can use &lt;em&gt;Markdown syntax&lt;/em&gt; within a blockquote.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h4 id=&#34;blockquote-with-attribution&#34;&gt;Blockquote with attribution
-&lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;Don&amp;rsquo;t communicate by sharing memory, share memory by communicating.&lt;!-- raw HTML omitted --&gt;
-— &lt;!-- raw HTML omitted --&gt;Rob Pike&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&#34;tables&#34;&gt;Tables
-&lt;/h2&gt;&lt;p&gt;Tables aren&amp;rsquo;t part of the core Markdown spec, but Hugo supports supports them out-of-the-box.&lt;/p&gt;
-&lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;Name&lt;/th&gt;
-          &lt;th&gt;Age&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;Bob&lt;/td&gt;
-          &lt;td&gt;27&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;Alice&lt;/td&gt;
-          &lt;td&gt;23&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h4 id=&#34;inline-markdown-within-tables&#34;&gt;Inline Markdown within tables
-&lt;/h4&gt;&lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;Italics&lt;/th&gt;
-          &lt;th&gt;Bold&lt;/th&gt;
-          &lt;th&gt;Code&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;em&gt;italics&lt;/em&gt;&lt;/td&gt;
-          &lt;td&gt;&lt;strong&gt;bold&lt;/strong&gt;&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;code&lt;/code&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-&lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;A&lt;/th&gt;
-          &lt;th&gt;B&lt;/th&gt;
-          &lt;th&gt;C&lt;/th&gt;
-          &lt;th&gt;D&lt;/th&gt;
-          &lt;th&gt;E&lt;/th&gt;
-          &lt;th&gt;F&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit.&lt;/td&gt;
-          &lt;td&gt;Phasellus ultricies, sapien non euismod aliquam, dui ligula tincidunt odio, at accumsan nulla sapien eget ex.&lt;/td&gt;
-          &lt;td&gt;Proin eleifend dictum ipsum, non euismod ipsum pulvinar et. Vivamus sollicitudin, quam in pulvinar aliquam, metus elit pretium purus&lt;/td&gt;
-          &lt;td&gt;Proin sit amet velit nec enim imperdiet vehicula.&lt;/td&gt;
-          &lt;td&gt;Ut bibendum vestibulum quam, eu egestas turpis gravida nec&lt;/td&gt;
-          &lt;td&gt;Sed scelerisque nec turpis vel viverra. Vivamus vitae pretium sapien&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h2 id=&#34;code-blocks&#34;&gt;Code Blocks
-&lt;/h2&gt;&lt;h4 id=&#34;code-block-with-backticks&#34;&gt;Code block with backticks
-&lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!doctype html&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;html&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;lang&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;en&amp;#34;&lt;/span&gt;&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;head&lt;/span&gt;&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;meta&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;charset&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;utf-8&amp;#34;&lt;/span&gt;&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;title&lt;/span&gt;&amp;gt;Example HTML5 Document&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;title&lt;/span&gt;&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;head&lt;/span&gt;&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;body&lt;/span&gt;&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;p&lt;/span&gt;&amp;gt;Test&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;p&lt;/span&gt;&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;body&lt;/span&gt;&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;html&lt;/span&gt;&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;code-block-indented-with-four-spaces&#34;&gt;Code block indented with four spaces
-&lt;/h4&gt;&lt;pre&gt;&lt;code&gt;&amp;lt;!doctype html&amp;gt;
-&amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt;
-&amp;lt;head&amp;gt;
-  &amp;lt;meta charset=&amp;quot;utf-8&amp;quot;&amp;gt;
-  &amp;lt;title&amp;gt;Example HTML5 Document&amp;lt;/title&amp;gt;
-&amp;lt;/head&amp;gt;
-&amp;lt;body&amp;gt;
-  &amp;lt;p&amp;gt;Test&amp;lt;/p&amp;gt;
-&amp;lt;/body&amp;gt;
-&amp;lt;/html&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h4 id=&#34;code-block-with-hugos-internal-highlight-shortcode&#34;&gt;Code block with Hugo&amp;rsquo;s internal highlight shortcode
-&lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!doctype html&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;html&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;lang&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;en&amp;#34;&lt;/span&gt;&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;head&lt;/span&gt;&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;meta&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;charset&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;utf-8&amp;#34;&lt;/span&gt;&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;title&lt;/span&gt;&amp;gt;Example HTML5 Document&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;title&lt;/span&gt;&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;head&lt;/span&gt;&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;body&lt;/span&gt;&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;p&lt;/span&gt;&amp;gt;Test&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;p&lt;/span&gt;&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;body&lt;/span&gt;&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;html&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h4 id=&#34;diff-code-block&#34;&gt;Diff code block
-&lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[dependencies.bevy]
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git = &amp;#34;https://github.com/bevyengine/bevy&amp;#34;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;rev = &amp;#34;11f52b8c72fc3a568e8bb4a4cd1f3eb025ac2e13&amp;#34;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;- features = [&amp;#34;dynamic&amp;#34;]
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;+ features = [&amp;#34;jpeg&amp;#34;, &amp;#34;dynamic&amp;#34;]
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;list-types&#34;&gt;List Types
-&lt;/h2&gt;&lt;h4 id=&#34;ordered-list&#34;&gt;Ordered List
-&lt;/h4&gt;&lt;ol&gt;
-&lt;li&gt;First item&lt;/li&gt;
-&lt;li&gt;Second item&lt;/li&gt;
-&lt;li&gt;Third item&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h4 id=&#34;unordered-list&#34;&gt;Unordered List
-&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;List item&lt;/li&gt;
-&lt;li&gt;Another item&lt;/li&gt;
-&lt;li&gt;And another item&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h4 id=&#34;nested-list&#34;&gt;Nested list
-&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;Fruit
-&lt;ul&gt;
-&lt;li&gt;Apple&lt;/li&gt;
-&lt;li&gt;Orange&lt;/li&gt;
-&lt;li&gt;Banana&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Dairy
-&lt;ul&gt;
-&lt;li&gt;Milk&lt;/li&gt;
-&lt;li&gt;Cheese&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;other-elements--abbr-sub-sup-kbd-mark&#34;&gt;Other Elements — abbr, sub, sup, kbd, mark
-&lt;/h2&gt;&lt;p&gt;&lt;!-- raw HTML omitted --&gt;GIF&lt;!-- raw HTML omitted --&gt; is a bitmap image format.&lt;/p&gt;
-&lt;p&gt;H&lt;!-- raw HTML omitted --&gt;2&lt;!-- raw HTML omitted --&gt;O&lt;/p&gt;
-&lt;p&gt;X&lt;!-- raw HTML omitted --&gt;n&lt;!-- raw HTML omitted --&gt; + Y&lt;!-- raw HTML omitted --&gt;n&lt;!-- raw HTML omitted --&gt; = Z&lt;!-- raw HTML omitted --&gt;n&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
-&lt;p&gt;Press &lt;!-- raw HTML omitted --&gt;CTRL&lt;!-- raw HTML omitted --&gt; + &lt;!-- raw HTML omitted --&gt;ALT&lt;!-- raw HTML omitted --&gt; + &lt;!-- raw HTML omitted --&gt;Delete&lt;!-- raw HTML omitted --&gt; to end the session.&lt;/p&gt;
-&lt;p&gt;Most &lt;!-- raw HTML omitted --&gt;salamanders&lt;!-- raw HTML omitted --&gt; are nocturnal, and hunt for insects, worms, and other small creatures.&lt;/p&gt;
-&lt;h2 id=&#34;hyperlinked-image&#34;&gt;Hyperlinked image
-&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://google.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;&lt;img src=&#34;https://www.google.com/images/branding/googlelogo/1x/googlelogo_light_color_272x92dp.png&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;Google&#34;
-	
-	
-&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
-&lt;hr&gt;
-&lt;ol&gt;
-&lt;li id=&#34;fn:1&#34;&gt;
-&lt;p&gt;The above quote is excerpted from Rob Pike&amp;rsquo;s &lt;a class=&#34;link&#34; href=&#34;https://www.youtube.com/watch?v=PAAkCSZUG1c&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;talk&lt;/a&gt; during Gopherfest, November 18, 2015.&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;</description>
         </item>
         
     </channel>
